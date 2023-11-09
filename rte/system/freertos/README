@@ -1,0 +1,19 @@
+FreeRTOSv202112.00
+
+1. Copy base sources:
+   FreeRTOS/Source/include/*.h > project/system/freertos/include
+   FreeRTOS/Source/*.c         > project/system/freertos/src
+
+2. Copy portable sources (for GCC and ARM-CM4+FPU):
+   FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h > project/system/freertos/include
+   FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c      > project/system/freertos/src
+
+3. Copy memory manager sources:
+   FreeRTOS/Source/portable/MemMang/heap_?.c > project/system/freertos/src
+
+4. Copy configuration template:
+   FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/FreeRTOSConfig.h > project/include
+
+5. In IDE build settings:
+   set flags: -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
+   

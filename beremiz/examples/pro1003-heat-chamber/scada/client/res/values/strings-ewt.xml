@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Time stamp</string>
+
+	<string name="err_plc">Errors of PLC</string>
+	<string name="err_net">Errors of net</string>
+	<string name="err_sens">Errors of sensors</string>
+	<string name="err_alg">Errors of alrorithms</string>
+
+	<string name="bboil_t">BOIL</string>
+	<string name="bbsc_t">BSC</string>
+	<string name="main_pump">main pump</string>
+	<string name="sec_pump">sec. pump</string>
+
+	<string name="kgcm2">kg/cm2</string>
+	
+</resources>

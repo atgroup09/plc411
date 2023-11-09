@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Временная метка</string>
+    <string name="stamp_start">Дата</string>
+	<string name="department_id">ID подразделения</string>
+	<string name="location_id">ID локации</string>
+	<string name="position_id">ID позиции</string>
+	<string name="fider_id">ID фидера</string>
+	<string name="cell_id">ID ячейки</string>
+	<string name="alarm_id">ID аварии</string>
+	<string name="alarm_i1a">Iперв. ф.A, А</string>
+	<string name="alarm_i1b">Iперв. ф.B, А</string>
+	<string name="alarm_i1c">Iперв. ф.C, А</string>
+	<string name="alarm_i2a">Iвтор. ф.A, А</string>
+	<string name="alarm_i2b">Iвтор. ф.B, А</string>
+	<string name="alarm_i2c">Iвтор. ф.C, А</string>
+	<string name="alarm_temp">Тсраб.</string>
+	<string name="gnd_i1">Iперв. земл., А</string>
+	<string name="gnd_i2">Iвтор. земл., А</string>
+	<string name="gnd_temp">Тсраб. земл.</string>
+	<string name="note">Примечание</string>
+	
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Time stamp</string>
+	
+	<string name="stamp">Stamp</string>
+	<string name="channel">Channel</string>
+	<string name="value">Value</string>
+	
+</resources>

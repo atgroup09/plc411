@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Временная метка</string>
+	
+	<string name="trm_stop">останов</string>
+	<string name="trm_work">работа</string>
+	<string name="trm_wait_start">ожидание запуска</string>
+	<string name="trm_pause">пауза</string>
+	<string name="trm_wait_start_off">ожидание запуска</string>
+	<string name="trm_set_graph">задание графиков</string>
+	<string name="trm_set_prog">выбор прог/шага</string>
+	<string name="trm_end">останов (выполнено)</string>
+	<string name="trm_alarm_s">авария</string>
+	<string name="trm_alarm">авария</string>
+	
+	<string name="trm_stop_t">останов</string>
+	<string name="trm_work_t">работа</string>
+	<string name="trm_wait_start_t">ожидание условий запуска</string>
+	<string name="trm_pause_t">пауза</string>
+	<string name="trm_wait_start_off_t">ожидание условий запуска после пропадания питания</string>
+	<string name="trm_set_graph_t">режим задания графиков</string>
+	<string name="trm_set_prog_t">выбор программы и шага</string>
+	<string name="trm_end_t">останов после выполнения программы</string>
+	<string name="trm_alarm_s_t">авария (с сигнализацией)</string>
+	<string name="trm_alarm_t">авария (без сигнализации)</string>
+	
+</resources>

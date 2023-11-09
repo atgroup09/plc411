@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="ordinal_num">N</string>
+	<string name="num">N</string>
+	<string name="num2">Number</string>
+	<string name="num3">number</string>
+	<string name="total">Total</string>
+	
+	<string name="data_filtr">Data filtr</string>
+	<string name="data_filtr_sqb">[Data filtr]</string>
+	<string name="new_record">New record</string>
+	<string name="new_record_sqb">[New record]</string>
+	<string name="edit">Edit</string>
+	<string name="edit_sqb">[Edit]</string>
+	<string name="multi_edit">Multi-Edit</string>
+	<string name="multi_edit_sqb">[Multi-Edit]</string>
+	
+	<string name="required">required</string>
+	<string name="required_">* - required</string>
+	
+	<string name="no_data">No data!</string>
+	
+	<string name="data_recorded">Data recording completed successfully!</string>
+	<string name="data_updated">Data updating completed successfully!</string>
+	<string name="data_removed">Data removing compacted successfully!</string>
+	
+	<string name="error">Error!</string>
+	<string name="error_record">Error writing data!</string>
+	<string name="error_update">Error updating data!</string>
+	<string name="error_remove">Error removing data!</string>
+	<string name="error_data">Not specified, or incorrect value of the field</string>
+	<string name="error_request_id">Error! The request ID is not supported!</string>
+	<string name="error_required_fields">Error! Incorrect value of one from required fields!</string>
+	
+	<string name="warning">Warning!</string>
+	
+	<string name="date">Date</string>
+	<string name="date2">date</string>
+	<string name="time">Time</string>
+	
+	<string name="year">Year</string>
+	<string name="year2">year</string>
+	<string name="quarter">Quarter</string>
+	<string name="month">Month</string>
+	<string name="week">Week</string>
+	<string name="day">Day</string>
+	
+	<string name="yearly">Yearly</string>
+	<string name="quarterly">Quarterly</string>
+	<string name="monthly">Monthly</string>
+	<string name="weekly">Weekly</string>
+	<string name="daily">Daily</string>
+	
+	<string name="hours">Hours</string>
+	<string name="minutes">Minutes</string>
+	<string name="seconds">Seconds</string>
+	
+	<string name="order_by">Order by</string>
+	<string name="order_value">value</string>
+	<string name="order_direction">direction</string>
+	<string name="asc">asc</string>
+	<string name="desc">desc</string>
+	
+	<string name="start">start</string>
+	<string name="end">end</string>
+	<string name="minimum">minumum</string>
+	<string name="maximum">maximum</string>
+	<string name="min">min</string>
+	<string name="max">max</string>
+	
+	<string name="without_date">without date</string>
+	
+	<string name="no_selected_pos">No selected positions!</string>
+	
+	<string name="get_tm_value">Get value on shift</string>
+	
+	<string name="date_format">format: YYYY-MM-DD</string>
+	<string name="time_format">format: HH:MM:SS</string>
+	<string name="datetime_format">format: YYYY-MM-DD HH:MM:SS</string>
+	<string name="float_format">format: #, #.##</string>
+	<string name="int_format">format: #</string>
+	
+</resources>

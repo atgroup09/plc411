@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Временная метка</string>
+	
+	<string name="err_plc">ошибки ПЛК</string>
+	<string name="err_net">ошибки сети</string>
+	<string name="err_sens">ошибки датчиков</string>
+	<string name="err_alg">ошибки алгоритмов</string>
+
+	<string name="bboil_t">БАК КОТЕЛЬНОЙ</string>
+	<string name="bbsc_t">БАК БСЦ</string>
+	<string name="main_pump">осн. насос</string>
+	<string name="sec_pump">доп. насос</string>
+
+	<string name="kgcm2">кг/см2</string>
+	
+</resources>

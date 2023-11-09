@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Time stamp</string>
+    <string name="stamp_start">Date</string>
+	<string name="department_id">Department ID</string>
+	<string name="location_id">Location ID</string>
+	<string name="position_id">Position ID</string>
+	<string name="fider_id">Fider ID</string>
+	<string name="cell_id">Cell ID</string>
+	<string name="alarm_id">Alarm ID</string>
+	<string name="alarm_i1a">First C.A</string>
+	<string name="alarm_i1b">First C.B</string>
+	<string name="alarm_i1c">First C.C</string>
+	<string name="alarm_i2a">Second C.A</string>
+	<string name="alarm_i2b">Second C.B</string>
+	<string name="alarm_i2c">Second C.C</string>
+	<string name="alarm_temp">Temp</string>
+	<string name="gnd_i1">First C.GND</string>
+	<string name="gnd_i2">Second C.GND</string>
+	<string name="gnd_temp">Temp.GND</string>
+	<string name="note">Note</string>
+	
+</resources>

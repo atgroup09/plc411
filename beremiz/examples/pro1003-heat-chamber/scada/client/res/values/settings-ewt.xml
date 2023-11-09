@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<settings name="modbus_ip">192.168.1.195</settings>
+	<settings name="modbus_proto">TCP</settings>
+	<settings name="modbus_unit_id">1</settings>
+	
+	<settings name="modbus_r_ireg1_ref">9</settings>
+	<settings name="modbus_r_ireg1_len">21</settings>
+	<settings name="modbus_r_hreg1_ref">99</settings>
+	<settings name="modbus_r_hreg1_len">7</settings>
+	
+	<settings name="modbus_w_hreg1_ref">101</settings>
+	<settings name="modbus_w_hreg1_len">5</settings>
+	
+</resources>

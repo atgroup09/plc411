@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<body>
+    <sysconfig name="web_portal">
+	<added_on>2015-11-22 17:06:40</added_on>
+	<updated_on>2015-11-22 17:06:40</updated_on>
+	<state>1</state>
+	<note>web portal</note>
+	<datasources type="db" name="root_arm">
+	    <datasource type="db" name="root_arm">
+	        <added_on>2015-11-22 17:06:40</added_on>
+	        <updated_on>2015-11-22 17:06:40</updated_on>
+	        <state>1</state>
+	        <db_type>mysql</db_type>
+	        <hostname>localhost</hostname>
+	        <port>3306</port>
+	        <database>dalur1</database>
+	        <table />
+	        <user>root_arm</user>
+	        <password>rootarm</password>
+	        <characters_coding>utf8</characters_coding>
+	        <note />
+	    </datasource>
+	</datasources>
+    </sysconfig>
+</body>

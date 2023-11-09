@@ -1,0 +1,39 @@
+pro1003-heat-chamber
+=======================================
+web-scada client of project "pro1003" (230505)
+(non web-server version)
+
+
+Hardware platform:
++ PLC411
+
+
+Software (requirements):
++ wslogger (2.3.0, 230505)
++ javascript, jquery, jquery-mobile, HTML5, CSS5, websocket
++ web-browser (last versions: firefox, chrome, yandex)
+
+
+Addons:
+
+
+Directories & Files:
+
+
+Root-directory by default (in pro1003.conf.d & bin-scripts):
+
+
+Before use:
+
+   1. In pro1003/main.js:
+
+      set current URI of wslogger-server
+      G_WS_SERVER_URI = "ws://IP-address:ConfigPort";
+
+      set current configure ID
+      var G_WS_SERVER_ID = "ConfigID";
+
+Use:
+
+   1. Open index.html in web-browser
+   2. Select project "pro1003"

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="error_read_data">Ошибка чтения данных</string>
+	<string name="data_range_t">Диапазон измерений</string>
+	<string name="data_range">диапазон измерений</string>
+	<string name="flow_m3_t">Расход, м3</string>
+	<string name="flow_m3">расход, м3</string>
+	<string name="norm_t">Норматив</string>
+	<string name="norm">норматив</string>
+	<string name="value_t">Значение</string>
+	<string name="value">значение</string>
+	<string name="cnt_value_t">Показание счетчика</string>
+	<string name="cnt_value">показание счетчика</string>
+	
+</resources>

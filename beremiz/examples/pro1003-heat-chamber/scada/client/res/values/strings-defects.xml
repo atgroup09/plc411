@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Time stamp</string>
+    <string name="status">Status</string>
+	<string name="approved">Approved</string>
+	<string name="defect">Defect</string>
+	<string name="note">Note</string>
+	
+</resources>

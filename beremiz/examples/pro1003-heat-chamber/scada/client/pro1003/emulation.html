@@ -1,0 +1,267 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        
+        <script type="text/javascript" src="../lib/js/regexp/regexp.js"></script>
+		<script type="text/javascript" src="../lib/js/types/types.js"></script>
+		<script type="text/javascript" src="../lib/js/bit.js"></script>
+		<script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../lib/js/date.format.js"></script>
+		<script type="text/javascript" src="../mod/form-v2.js"></script>
+		
+        <title>WebSocket Chat Client</title>
+    </head>
+    <body>
+        <h1>WebSocket Chat Client</h1>
+        
+        <table>
+        	<tr>
+        		<td style="vertical-align:top">
+        			<p>
+						Host:<br />
+						<input type="text" id="inputHost" value="localhost" style="width:400px;" /><br />
+						Port:<br />
+						<input type="text" id="inputPort" value="8100" style="width:400px;" /><br />
+					</p>
+					<p>
+						<button onClick="initWebSocket();">Connect</button>
+						<button onClick="stopWebSocket();">Disconnect</button>
+						<button onClick="checkSocket();">State</button>
+					</p>
+					<p>
+						<input type="text" id="inputConnectedTo" value="" disabled="true" style="width:400px;" /><br />
+						<textarea id="debugTextArea" style="width:400px;height:200px;"></textarea>
+					</p>
+					<p>
+						Login:<br />
+						<input type="text" id="inputLogin" value="" style="width:400px;" /><br />
+						Message:<br />
+						<input type="text" id="inputMessage" style="width:400px;" onkeydown="if(event.keyCode==13)sendMessage();" /><br />
+						<input type="checkbox" name="chbDoNotClear" id="chbDoNotClear" value="1" /> - don't clear after send<br />
+						<br />
+						WsID:<br />
+						<input type="text" id="inputWsID" value="pro1003" style="width:400px;" />
+					</p>
+					<p>
+						<button onClick="clearMessage();">Clear</button>
+						<button onClick="sendMessage();">Send</button>
+						<button onClick="makeMessage();">Make</button>
+						<button onClick="makeSendMessage();">Make+Send</button>
+					</p>
+        		</td>
+        		<td style="vertical-align:top; padding-left:20px">
+        			<h4>PLC</h4>
+        			<form id="Form0">
+        				<input type="text" name="ID" value="1" size="6" /> ID<br />
+        				<input type="text" name="BaseAddr" value="1" size="6" /> BaseAddr<br />
+        				<br />
+                        <input type="text" name="SET_ID" value="1" size="6" /> SET_ID<br />
+                        <input type="text" name="SP" value="40" size="6" /> SP<br />
+                        <input type="text" name="D" value="5" size="6" /> D<br />
+                        <input type="text" name="DHI" value="50" size="6" /> DHI<br />
+                        <input type="text" name="THI" value="60" size="6" /> THI<br />
+                        <input type="text" name="DLO" value="30" size="6" /> DLO<br />
+                        <input type="text" name="TLO" value="300" size="6" /> TLO<br />
+                        <input type="text" name="TB" value="60" size="6" /> TB<br />
+                        <br />
+        			    <input type="text" name="STATES" id="STATES" value="0" size="6" /> STATES <input type="button" value="=0" onClick="onBtResetWsX('Form0','STATES');" /><br />
+        				00 <input type="checkbox" value="0" name="STATES_00" onClick="onWsX(this,'STATES');" /> HS-001<br />
+        				01 <input type="checkbox" value="1" name="STATES_01" onClick="onWsX(this,'STATES');" /> HS-002<br />
+        				02 <input type="checkbox" value="2" name="STATES_02" onClick="onWsX(this,'STATES');" /> H-001<br />
+        				03 <input type="checkbox" value="3" name="STATES_03" onClick="onWsX(this,'STATES');" /> C-001<br />
+        				04 <input type="checkbox" value="4" name="STATES_04" onClick="onWsX(this,'STATES');" /> LED<br />
+        				05 <input type="checkbox" value="5" name="STATES_05" onClick="onWsX(this,'STATES');" /> ALARM<br />
+        				06 <input type="checkbox" value="6" name="STATES_06" onClick="onWsX(this,'STATES');" /><br />
+        				07 <input type="checkbox" value="7" name="STATES_07" onClick="onWsX(this,'STATES');" /><br />
+        				08 <input type="checkbox" value="8" name="STATES_08" onClick="onWsX(this,'STATES');" /><br />
+        				09 <input type="checkbox" value="9" name="STATES_09" onClick="onWsX(this,'STATES');" /><br />
+        				10 <input type="checkbox" value="10" name="STATES_10" onClick="onWsX(this,'STATES');" /><br />
+        				11 <input type="checkbox" value="11" name="STATES_11" onClick="onWsX(this,'STATES');" /><br />
+        				12 <input type="checkbox" value="12" name="STATES_12" onClick="onWsX(this,'STATES');" /><br />
+        				13 <input type="checkbox" value="13" name="STATES_13" onClick="onWsX(this,'STATES');" /><br />
+        				14 <input type="checkbox" value="14" name="STATES_14" onClick="onWsX(this,'STATES');" /><br />
+        				15 <input type="checkbox" value="15" name="STATES_15" onClick="onWsX(this,'STATES');" /> INIT<br />
+        				<br />
+                        <input type="text" name="TT001" value="276" size="6" /> TT001<br />
+                        <input type="text" name="STATE" value="0" size="6" /> STATE<br />
+                        <input type="text" name="DIAGN" value="0" size="6" /> DIAGN<br />
+                        <input type="text" name="PLC" value="123" size="6" /> PLC<br />
+                        <input type="text" name="PLC_TT" value="329" size="6" /> PLC_TT<br />
+        			</form>
+        		</td>
+        	</tr>
+        </table>
+
+        <script type="text/javascript">
+        	
+        	function onBtResetWsX(form, target)
+            {
+                document.getElementById(target).value = 0;
+                $('#' + form).find("input[name^='" + target + "'][type='checkbox']").prop("checked", false);
+            }
+        	
+        	function onWsX(element, target)
+            {
+            	var Bit = (element.value-0);
+            	var Num = (document.getElementById(target).value-0);
+                document.getElementById(target).value = (element.checked ? setBit(Num, Bit) : clearBit(Num, Bit));
+            }
+        	
+        	function makeMessage()
+        	{
+        		if(typeof jsForm == "function")
+				{
+					var Forms = ["Form0"];
+				    var Msg   = {"ID":"Ws", "Networks":[{"ID":1, "Devices":[]}], "Stamp":1546721099 };
+					
+					var FormOpts = null;
+					var FormData = null;
+					var FormRes  = null;
+					
+					for(var i=0; i<Forms.length; i++)
+					{
+						FormData = new jsForm(Forms[i]);
+						
+						FormData["ItemOptions"] = { };
+						FormData["ItemOptions"]["ID"]       = { ItemType:"text", DataType:"number" };
+						FormData["ItemOptions"]["BaseAddr"] = { ItemType:"text", DataType:"number" };
+						FormData["ItemOptions"]["SET_ID"]   = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["SP"]       = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["D"]        = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["DHI"]      = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["THI"]      = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["DLO"]      = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["TLO"]      = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["TB"]       = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["STATES"]   = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["TT001"]    = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["STATE"]    = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["DIAGN"]    = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["PLC"]      = { ItemType:"text", DataType:"number" };
+                        FormData["ItemOptions"]["PLC_TT"]   = { ItemType:"text", DataType:"number" };
+						
+						FormRes = FormData.getResultset();
+						if(FormRes) Msg["Networks"][0]["Devices"].push(FormRes);
+					}
+					
+					Msg["ID"]    = $("#inputWsID").attr("value");
+					Msg["Stamp"] = (new Date()).get_current_time_stamp();
+					
+					$("#inputMessage").attr("value", JSON.stringify(Msg));
+				}
+        	}
+        	
+        	function makeSendMessage()
+        	{
+        		makeMessage();
+        		sendMessage();
+        	}
+        	
+        	
+            var debugTextArea = document.getElementById("debugTextArea");
+            function debug(message) {
+                debugTextArea.value += message + "\n";
+                debugTextArea.scrollTop = debugTextArea.scrollHeight;
+            }
+
+            function clearMessage() {
+                document.getElementById("inputMessage").value = "";
+                document.getElementById("debugTextArea").value = "";
+            }
+
+            function sendMessage() {
+                var nickname = document.getElementById("inputLogin").value;
+                var msg = document.getElementById("inputMessage").value;
+                var strToSend = ((nickname.length) ? (nickname + ": " + msg) : msg);
+                if ( websocket != null )
+                {
+                    if(!document.getElementById("chbDoNotClear").checked) document.getElementById("inputMessage").value = "";
+                    websocket.send( strToSend );
+                    console.log( "string sent :", '"'+strToSend+'"' );
+                    debug(strToSend);
+                }
+            }
+                        
+            var wsUri = "ws://localhost:8100";
+            var websocket = null;
+
+            function initWebSocket() {
+                try {
+                    if (typeof MozWebSocket == 'function')
+                        WebSocket = MozWebSocket;
+                    if ( websocket && websocket.readyState == 1 )
+                        websocket.close();
+                    
+                    window.onbeforeunload = onWindowBeforeUnload;
+                    
+                    var host = document.getElementById("inputHost").value;
+                    var port = document.getElementById("inputPort").value-0;
+                    
+                    if(host.length && port > 0) wsUri = "ws://" + host + ":" + port;
+                    
+                    websocket = new WebSocket( wsUri );
+                    websocket.onopen = function (evt) {
+                        debug("CONNECTED");
+                        document.getElementById("inputConnectedTo").value = wsUri;
+                    };
+                    websocket.onclose = function (evt) {
+                        debug("DISCONNECTED");
+                        document.getElementById("inputConnectedTo").value = "";
+                    };
+                    websocket.onmessage = function (evt) {
+                        console.log( "Message received :", evt.data );
+                        debug( evt.data );
+                    };
+                    websocket.onerror = function (evt) {
+                        debug('ERROR: ' + evt.data);
+                    };
+                } catch (exception) {
+                    debug('ERROR: ' + exception);
+                }
+            }
+
+            function stopWebSocket() {
+                if (websocket)
+                    websocket.close();
+            }
+            
+            function onWindowBeforeUnload(event)
+            {
+                stopWebSocket();
+                return (null);
+            }
+            
+            function checkSocket() {
+                if (websocket != null) {
+                    var stateStr;
+                    switch (websocket.readyState) {
+                        case 0: {
+                            stateStr = "CONNECTING";
+                            break;
+                        }
+                        case 1: {
+                            stateStr = "OPEN";
+                            break;
+                        }
+                        case 2: {
+                            stateStr = "CLOSING";
+                            break;
+                        }
+                        case 3: {
+                            stateStr = "CLOSED";
+                            break;
+                        }
+                        default: {
+                            stateStr = "UNKNOW";
+                            break;
+                        }
+                    }
+                    debug("WebSocket state = " + websocket.readyState + " ( " + stateStr + " )");
+                } else {
+                    debug("WebSocket is null");
+                }
+            }
+			
+        </script>
+    </body>
+</html>

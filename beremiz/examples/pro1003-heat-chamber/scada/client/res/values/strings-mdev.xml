@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="recomm_0">none</string>
+    <string name="recomm_1">to prepare</string>
+	<string name="recomm_2">to calibrate</string>
+	
+	<string name="ready_0">none</string>
+    <string name="ready_1">prepared</string>
+	<string name="ready_2">shipped</string>
+	<string name="ready_3">calibrated</string>
+	<string name="ready_4">received</string>
+	
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Time stamp</string>
+    <string name="status">Status</string>
+	<string name="approved">Approved</string>
+	<string name="cell">Cell</string>
+	<string name="note">Note</string>
+	<string name="department_id">Department ID</string>
+	<string name="location_id">Location ID</string>
+	<string name="position_id">Position ID</string>
+	<string name="fider_id">Fider ID</string>
+	
+</resources>

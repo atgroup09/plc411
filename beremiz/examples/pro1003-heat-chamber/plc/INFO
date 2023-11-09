@@ -1,0 +1,31 @@
+pro1003-heat-chamber
+=======================================
+control program
+
+
+Hardware platform:
++ PLC411
+
+IDE:
++ Beremiz YAPLC 1.2.0 (230505)
+
+addons:
++ stm32flash.exe - program flash-loader for STM32 MCU (WinXP, Win10)
++ xprog-app.bat  - script for load the control program into PLC411 (WinXP, Win10)
+
+
+
+Load the control program into PLC411 (WinXP, Win10):
+
+   1. Connect PLC411.COM1 to PC.USB over UART-USB converter
+   2. Determine the number of COM-port (PC.USB)
+   3. In xprog-app.bat:
+      set Com="COMn" (where, COMn - the number of COM-port (PC.USB))
+      save & exit
+   4. Build the control program in IDE Beremiz
+   5. Switch PLC411.Mode from RUN to BOOT
+   6. Reset PLC411
+   7. Execute xprog-app.bat
+      wait for loading complete
+   8. Switch PLC411.Mode from BOOT to RUN
+   9. Reset PLC411

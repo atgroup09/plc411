@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="author" content="AT09" />
+<meta name="copyright" content="&copy;AT09, 2023" />
+<meta name="contact" content="atgroup09@yandex.ru" />
+<meta name="description" content="Камера термообработки" />
+<meta name="keywords" content="Информационный портал, ПЛК411, Камера термообработки" />
+<meta name="resource-type" content="document" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<!-- LIBRARIES -->
+<script type="text/javascript" src="../lib/js/regexp/regexp.js"></script>
+<script type="text/javascript" src="../lib/js/types/types.js"></script>
+<script type="text/javascript" src="../lib/js/screen/screen.js"></script>
+<script type="text/javascript" src="../lib/js/dom/dom.js"></script>
+<script type="text/javascript" src="../lib/js/bit.min.js"></script>
+<script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="../lib/js/date.format.min.js"></script>
+<script type="text/javascript" src="../lib/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../lib/js/jquery-mobile/jquery.mobile.min.js"></script>
+<script type="text/javascript" src="../lib/js/flot/jquery.colorhelpers.min.js"></script>
+<script type="text/javascript" src="../lib/js/flot/jquery.flot.min.js"></script>
+<script type="text/javascript" src="../lib/js/flot/jquery.flot.time.min.js"></script>
+<script type="text/javascript" src="../lib/js/flot/jquery.flot.symbol.min.js"></script>
+<script type="text/javascript" src="../lib/js/flot/jquery.flot.axislabels.js"></script>
+<script type="text/javascript" src="../lib/js/flot/jquery.flot.fillbetween.min.js"></script>
+
+<!-- MODULES -->
+<script type="text/javascript" src="../mod/debug.js"></script>
+<script type="text/javascript" src="../mod/log.js"></script>
+<script type="text/javascript" src="../mod/popup-dialog.js"></script>
+<script type="text/javascript" src="../mod/hmi-v3.js"></script>
+<script type="text/javascript" src="../mod/form-v2.js"></script>
+<script type="text/javascript" src="../mod/ui-hmi-v3.js"></script>
+<script type="text/javascript" src="../mod/chart-linear.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript" src="res.js"></script>
+<script type="text/javascript" src="main.js"></script>
+
+<!-- CSS-styles -->
+<style type="text/css">@import "../lib/js/jquery-mobile/fonts-googleapis-opensans.css";</style>
+<style type="text/css">@import "../lib/js/jquery-mobile/jquery.mobile.min.css";</style>
+<style type="text/css">@import "../lib/js/jquery-mobile/jqm-demos.css";</style>
+<style type="text/css">@import "../lib/js/jquery-ui/jquery-ui.min.css";</style>
+<style type="text/css">@import "../mod/ui-hmi-v3.css";</style>
+<style type="text/css">@import "main.css";</style>
+
+<title>Камера термообработки</title>
+</head>
+
+<body>
+
+<!-- page -->
+<div data-role="page" data-theme="a" class="my-page">
+
+	<!-- header -->
+	<div data-role="header" data-position="fixed" data-theme="b" data-tap-toggle="false" >
+		<a href="#nav-panel-left" class="ui-btn ui-btn-icon-right ui-icon-bars ui-btn-icon-notext ui-corner-all" title="Меню">Меню</a>
+		<div data-role="controlgroup" data-type="horizontal" class="ui-mini ui-btn-right">
+            <a href="#" class="ui-btn ui-btn-icon-right ui-icon-disconnected ui-btn-icon-notext ui-noactive" id="ConnectState">Связь</a>
+			<a href="#nav-panel-right" class="ui-btn ui-btn-icon-right ui-icon-eye ui-btn-icon-notext" title="Настройки">Настройки</a>
+        </div>
+        <h1>Камера термообработки</h1>
+	</div>
+	<!-- /header -->
+
+	<!-- content -->
+	<div role="main" class="ui-content">
+		<div class="ui-bar ui-bar-a ui-corner-all ui-main-placeholder-loc">
+			<div id="RootCase" class="ui-grid-solo">
+				<div class="ui-bar ui-bar-a ui-bar-main">
+					<img src="images/main.png" />
+					
+					<img id="H001_bil" class="ui-abs-100" src="images/bl-red.png" src0="images/bl-red.png" src1="images/bl-green.png" title="H-001" />
+					<img id="C001_bil" class="ui-abs-100" src="images/bl-red.png" src0="images/bl-red.png" src1="images/bl-green.png" title="C-001" />
+					<img id="HS001_bil" class="ui-abs-100" src="images/bl-red.png" src0="images/bl-red.png" src1="images/bl-green.png" title="HS-001" />
+					<img id="HS002_bil" class="ui-abs-100" src="images/bl-red.png" src0="images/bl-red.png" src1="images/bl-green.png" title="HS-002" />
+					<img id="LED_bil" class="ui-abs-100" src="images/bl-red.png" src0="images/bl-red.png" src1="images/bl-green.png" title="LED_USER" />
+					<img id="ALARM_bil" class="ui-abs-300" src="images/warning-mid.png" />
+					
+					<div id="PLC_t" class="ui-abs-100 ui-abs-text-rmin ui-color-black">PLC:</div>
+					<div id="PLC_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="PLC_txt" title="пульс ПЛК" colspan="2">0</th>
+								</tr>
+								<tr>
+									<th id="PLC_TT_txt" title="температура ПЛК.ЦПУ">0</th>
+									<td>&deg;C</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="DHI_t" class="ui-abs-100 ui-abs-text-rmin ui-color-black">Dhi:</div>
+					<div id="DHI_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="DHI_txt" title="верхняя аварийная уставка">0</th>
+									<td>&deg;C</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="THI_t" class="ui-abs-100 ui-abs-text-rmin ui-color-black">Thi:</div>
+					<div id="THI_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="THI_txt" title="время выдержки верхней аварии">0</th>
+									<td>сек</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="DLO_t" class="ui-abs-100 ui-abs-text-rmin ui-color-black">Dlo:</div>
+					<div id="DLO_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="DLO_txt" title="нижняя аварийная уставка">0</th>
+									<td>&deg;C</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="TLO_t" class="ui-abs-100 ui-abs-text-rmin ui-color-black">Tlo:</div>
+					<div id="TLO_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="TLO_txt" title="время выдержки нижней аварии">0</th>
+									<td>сек</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="ID_t" class="ui-abs-100 ui-abs-text-rmin ui-color-black">ID:</div>
+					<div id="ID_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="ID_txt" title="идентификатор уставочной диаграммы">0</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="SP_t" class="ui-abs-100 ui-abs-text-rmin ui-color-black">SP:</div>
+					<div id="SP_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="SP_txt" title="уставка">0</th>
+									<td>&deg;C</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="D_t" class="ui-abs-100 ui-abs-text-rmin ui-color-black">D:</div>
+					<div id="D_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="D_txt" title="гистерезис">0</th>
+									<td>&deg;C</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="TT001_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="TT001_txt" title="TT-001">0.0</th>
+									<td>&deg;C</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="TB_t" class="ui-abs-100 ui-abs-text-rmin ui-color-black">Tb</div>
+					<div id="TB_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-y">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="TB_txt" title="время продувки">0</th>
+									<td>сек</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="HS001_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-z">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<td id="HS001_txt" title="разрешение работы">---</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="HS002_tbox" class="ui-abs-100 ui-abs-bar-x">
+						<table class="ui-abs-table-z">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<td id="HS002_txt" title="разрешение продувки">---</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="STATE_tbox" class="ui-abs-100">
+						<table class="ui-abs-table-t">
+							<caption />
+							<thead />
+							<tfoot />
+							<tbody>
+								<tr>
+									<th id="STATE_txt" title="общее состояние контура управления">---</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div id="ChartCase" class="ui-grid-solo">
+				<div class="ui-bar ui-bar-a">
+					<div class="ui-corner-all custom-corners">
+						<div class="ui-bar ui-bar-y">
+							<h3>График</h3>
+						</div>
+						<div class="ui-body ui-body-a ui-main-plot">
+							<div id="Chart"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="LogCase" class="ui-grid-solo">
+				<div class="ui-bar ui-bar-a">
+					<div class="ui-corner-all custom-corners">
+						<div class="ui-bar ui-bar-y">
+							<h3>Журнал событий</h3>
+						</div>
+						<div class="ui-body ui-body-a ui-main-log">
+							<table class="ui-table-z" id="LogTable">
+								<caption />
+								<thead />
+								<tfoot />
+								<tbody />
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /content -->
+
+	<!-- footer -->
+	<div data-role="footer" data-position="fixed" data-theme="b" data-tap-toggle="false">
+		<a href="../index.html" target="_top" rel="external" data-icon="carat-l" data-iconpos="notext" title="Назад к Главному меню">Back</a>
+	</div>
+	<!-- /footer -->
+
+	<!-- nav-panel::left -->
+	<div id="nav-panel-left" data-role="panel" data-position-fixed="true" data-display="push" data-theme="b">
+		<ul data-role="listview" data-inset="true" data-divider-theme="a">
+			<li data-role="list-divider">Назад к экрану</li>
+			<li><a href="../index.html" target="_top" rel="external">Главное меню</a></li>
+		</ul>
+	</div>
+	<!-- /nav-panel::left -->
+
+	<!-- nav-panel::right -->
+	<div id="nav-panel-right" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay" data-theme="a">
+		<form id="FormSet">
+			<ul data-role="listview" data-inset="true">
+				<li data-role="list-divider">Cервер</li>
+				<li id="WsServerID">---</li>
+				<li id="WsServerUri">---</li>
+				<li id="WsServerState">---</li>
+				<li class="ui-field-contain">
+					<a href="#" id="FormSetConnect" class="ui-btn ui-btn-icon-left ui-icon-disconnected" data-mini="true" title="подключить">подключить</a>
+				</li>
+			</ul>
+			<br />
+			<ul data-role="listview" data-inset="true">
+				<li data-role="list-divider">Вид</li>
+				<li>
+					<fieldset data-role="controlgroup">
+						<label for="FormViewScheme">мнемосхема</label>
+						<input type="checkbox" name="scheme_use" id="FormViewScheme" value="1" checked="true" data-mini="true" />
+						<label for="FormViewChart">график</label>
+						<input type="checkbox" name="chart_use" id="FormViewChart" value="1" checked="true" data-mini="true" />
+						<label for="FormSetLog">журнал событий</label>
+						<input type="checkbox" name="log_use" id="FormSetLog" value="1" checked="true" data-mini="true" />
+					</fieldset>
+				</li>
+			</ul>
+			<br />
+			<ul data-role="listview" data-inset="true">
+				<li data-role="list-divider">Настройки</li>
+				<li class="ui-field-contain">
+					<label for="FormSetID">ID</label>
+					<input type="number" name="SET_ID" id="FormSetID" value="1" data-clear-btn="true" minlength="0" maxlength="10" data-mini="true" title="идентификатор группы настроек" />
+				</li>
+				<li class="ui-field-contain">
+					<label for="FormSetSP">SP</label>
+					<input type="number" name="SP" id="FormSetSP" value="40" data-clear-btn="true" minlength="0" maxlength="60" data-mini="true" title="уставка, °C" />
+				</li>
+				<li class="ui-field-contain">
+					<label for="FormSetD">D</label>
+					<input type="number" name="D" id="FormSetD" value="5" data-clear-btn="true" minlength="2" maxlength="15" data-mini="true" title="зона гистерезиса, °C" />
+				</li>
+				<li class="ui-field-contain">
+					<label for="FormSetDHI">DHI</label>
+					<input type="number" name="DHI" id="FormSetDHI" value="50" data-clear-btn="true" minlength="0" maxlength="60" data-mini="true" title="верхняя аварийная уставка, °C" />
+				</li>
+				<li class="ui-field-contain">
+					<label for="FormSetTHI">THI</label>
+					<input type="number" name="THI" id="FormSetTHI" value="60" data-clear-btn="true" minlength="0" maxlength="500" data-mini="true" title="время задержки сигнала верхней аварии, сек" />
+				</li>
+				<li class="ui-field-contain">
+					<label for="FormSetDLO">DLO</label>
+					<input type="number" name="DLO" id="FormSetDLO" value="30" data-clear-btn="true" minlength="0" maxlength="60" data-mini="true" title="нижняя аварийная уставка, °C" />
+				</li>
+				<li class="ui-field-contain">
+					<label for="FormSetTLO">TLO</label>
+					<input type="number" name="TLO" id="FormSetTLO" value="300" data-clear-btn="true" minlength="0" maxlength="500" data-mini="true" title="время задержки сигнала нижней аварии, сек" />
+				</li>
+				<li class="ui-field-contain">
+					<label for="FormSetTB">TB</label>
+					<input type="number" name="TB" id="FormSetTB" value="60" data-clear-btn="true" minlength="0" maxlength="500" data-mini="true" title="время продувки, сек" />
+				</li>
+				<li class="ui-field-contain">
+					<label for="FormSetStart">&nbsp;</label>
+					<select name="START" id="FormSetStart" data-mini="true">
+					    <option value="0">ВЫКЛ</option>
+					    <option value="1">ВКЛ</option>
+					</select>
+				</li>
+				<li class="ui-field-contain">
+					<a href="#" id="FormSetApply" class="ui-btn ui-btn-icon-left ui-icon-check" data-mini="true" title="применить">применить</a>
+				</li>
+			</ul>
+		</form>
+	</div>
+	<!-- /nav-panel::right -->
+
+	<!-- popup widgets -->
+	<div data-role="popup" id="PopupBasic" data-position-to="window" data-overlay-theme="a" data-theme="b" class="ui-content" style="max-width:640px;">
+	</div>
+	<!-- /popup widgets -->
+
+</div>
+<!-- /page -->
+
+
+<!-- JAVASCRIPT CODE -->
+
+<script language="JavaScript">
+
+//** GLOBAL VARIABLES
+
+
+//** FUNCTIONS
+
+function main()
+{
+	Main_InitUI();
+}
+
+$(document).ready(main);
+
+</script>
+
+</body>
+</html>

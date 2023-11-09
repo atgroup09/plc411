@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Временная метка</string>
+    <string name="status">Статус</string>
+	<string name="approved">Утверждено</string>
+	<string name="location">Локация</string>
+	<string name="note">Примечание</string>
+	<string name="num">Номер</string>
+	<string name="department_id">ID подразделения</string>
+	
+</resources>

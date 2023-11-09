@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<settings name="mod_bus_ip">192.168.1.195</settings>
+	<settings name="mod_bus_proto">TCP</settings>
+	<settings name="mod_bus_unit_id">1</settings>
+	
+</resources>

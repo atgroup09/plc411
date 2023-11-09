@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="error_read_data">Error reading data</string>
+	<string name="data_range_t">Date range</string>
+	<string name="data_range">date range</string>
+	<string name="flow_m3_t">Flow, m3</string>
+	<string name="flow_m3">flow, m3</string>
+	<string name="norm_t">Normative</string>
+	<string name="norm">normative</string>
+	<string name="value_t">Value</string>
+	<string name="value">value</string>
+	<string name="cnt_value_t">Counter value</string>
+	<string name="cnt_value">counter value</string>
+	
+</resources>

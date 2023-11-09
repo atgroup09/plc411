@@ -1,0 +1,26 @@
+pro1003-heat-chamber
+=======================================
+example project
+
+
+Hardware platform:
++ PLC411
+
+
+Software:
+
+
+addons:
+
+
+Directories & Files:
+
+    demo - screenshots and video
+
+    other-tools - debug tools (ModBus Emulator project, Owen OPC project)
+
+    plc - project of control program for IDE Beremiz YAPLC (bin + source code)
+
+    scada - data server & project of web-scada (bin + source code)
+
+    spec - specifications & documentation (plc411, pro1003, wslogger, wsscada)

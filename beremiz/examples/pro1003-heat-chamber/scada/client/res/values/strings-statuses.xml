@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="status_0">not used</string>
+    <string name="status_1">used</string>
+	
+	<string name="status2_0">no</string>
+    <string name="status2_1">yes</string>
+	
+	<string name="status3_0">manually</string>
+    <string name="status3_1">automatically</string>
+	
+	<string name="completed">completed</string>
+	
+</resources>

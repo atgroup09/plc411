@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="status_0">не используется</string>
+    <string name="status_1">используется</string>
+	
+	<string name="status2_0">нет</string>
+    <string name="status2_1">да</string>
+    
+	<string name="status3_0">вручную</string>
+    <string name="status3_1">автоматически</string>
+	
+    <string name="completed">завершено</string>
+	
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Временная метка</string>
+    <string name="status">Статус</string>
+	<string name="approved">Утверждено</string>
+	<string name="cell">Ячейка</string>
+	<string name="note">Примечание</string>
+	<string name="department_id">ID подразделения</string>
+	<string name="location_id">ID локации</string>
+	<string name="position_id">ID позиции</string>
+	<string name="fider_id">ID фидера</string>
+	
+</resources>

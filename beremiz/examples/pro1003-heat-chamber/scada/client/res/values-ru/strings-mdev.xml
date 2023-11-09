@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="recomm_0">нет</string>
+    <string name="recomm_1">на подготовку</string>
+	<string name="recomm_2">на поверку</string>
+	
+	<string name="ready_0">нет</string>
+    <string name="ready_1">подготовлено</string>
+	<string name="ready_2">отправлено</string>
+	<string name="ready_3">поверено</string>
+	<string name="ready_4">получено</string>
+	
+</resources>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="ordinal_num">N п.п</string>
+	<string name="num">N</string>
+	<string name="num2">Номер</string>
+	<string name="num3">номер</string>
+	<string name="total">Итого</string>
+	
+	<string name="data_filtr">Фильтр данных</string>
+	<string name="data_filtr_sqb">[Фильтр данных]</string>
+	<string name="new_record">Новая запись</string>
+	<string name="new_record_sqb">[Новая запись]</string>
+	<string name="edit">Правка</string>
+	<string name="edit_sqb">[Правка]</string>
+	<string name="multi_edit">Мульти-Правка</string>
+	<string name="multi_edit_sqb">[Мульти-Правка]</string>
+	
+	<string name="required">обязательные для заполнения</string>
+	<string name="required_">* - обязательные для заполнения</string>
+	
+	<string name="no_data">Нет данных!</string>
+	
+	<string name="data_recorded">Данные записаны!</string>
+	<string name="data_updated">Данные обновлены!</string>
+	<string name="data_removed">Данные удалены!</string>
+	
+	<string name="error">Ошибка!</string>
+	<string name="error_record">Ошибка записи данных!</string>
+	<string name="error_update">Ошибка обновления данных!</string>
+	<string name="error_remove">Ошибка удаления данных!</string>
+	<string name="error_data">Не задано или неверное значение поля</string>
+	<string name="error_request_id">Ошибка! Идентификатор запроса не поддерживается!</string>
+	<string name="error_required_fields">Не задано или неверное значение одного из обязательных полей!</string>
+	
+	<string name="warning">Внимание!</string>
+	
+	<string name="date">Дата</string>
+	<string name="date2">дата</string>
+	<string name="time">Время</string>
+	
+	<string name="year">Год</string>
+	<string name="year2">год</string>
+	<string name="quarter">Квартал</string>
+	<string name="month">Месяц</string>
+	<string name="week">Месяц</string>
+	<string name="day">День</string>
+	
+	<string name="yearly">Ежегодный</string>
+	<string name="quarterly">Ежеквартальный</string>
+	<string name="monthly">Ежемесячный</string>
+	<string name="weekly">Еженедельный</string>
+	<string name="daily">Ежедневный</string>
+	
+	<string name="hours">Часы</string>
+	<string name="minutes">Минуты</string>
+	<string name="seconds">Секунды</string>
+	
+	<string name="order_by">Сортировка</string>
+	<string name="order_value">значение</string>
+	<string name="order_direction">направление</string>
+	<string name="asc">по возрастанию</string>
+	<string name="desc">по убыванию</string>
+	
+	<string name="start">начало</string>
+	<string name="end">конец</string>
+	<string name="minimum">минимум</string>
+	<string name="maximum">максимум</string>
+	<string name="min">мин.</string>
+	<string name="max">макс.</string>
+	
+	<string name="without_date">без даты</string>
+	
+	<string name="no_selected_pos">Нет выбранных позиций!</string>
+	
+	<string name="get_tm_value">Получить значение за смену</string>
+	
+	<string name="date_format">формат: ГГГГ-ММ-ДД</string>
+	<string name="time_format">формат: ЧЧ:ММ:СС</string>
+	<string name="datetime_format">формат: ГГГГ-ММ-ДД ЧЧ:ММ:СС</string>
+	<string name="float_format">формат: #, #.##</string>
+	<string name="int_format">формат: #</string>
+	
+	<string name="norm_warn1">1. Если значения справочника/норматива связаны с таблицами других АРМ, то удалить их можно будет только после удаления всех связанных данных!</string>
+	<string name="norm_warn2">2. Значения справочника/норматива могут быть привязаны к ранее введенным фактическим данным! Изменение значений может повлиять на корректное отображение отчетов за предыдущие периоды времени!</string>
+	<string name="norm_warn3">3. Не забывайте корректно выставлять дату утверждения.</string>
+	
+</resources>

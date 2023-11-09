@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Временная метка</string>
+    <string name="status">Статус</string>
+	<string name="approved">Утверждено</string>
+	<string name="work">Работа</string>
+	<string name="note">Примечание</string>
+	
+</resources>

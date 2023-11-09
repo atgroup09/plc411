@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+	
+	<string name="time_stamp">Временная метка</string>
+	
+	<string name="trm_stop">останов</string>
+	<string name="trm_work">работа</string>
+	<string name="trm_wait_start">ожидание запуска</string>
+	<string name="trm_pause">пауза</string>
+	<string name="trm_wait_start_off">ожидание запуска</string>
+	<string name="trm_set_graph">задание графиков</string>
+	<string name="trm_set_prog">выбор прог/шага</string>
+	<string name="trm_end">останов (выполнено)</string>
+	<string name="trm_alarm_s">авария</string>
+	<string name="trm_alarm">авария</string>
+	
+	<string name="trm_stop_t">останов</string>
+	<string name="trm_work_t">работа</string>
+	<string name="trm_wait_start_t">ожидание условий запуска</string>
+	<string name="trm_pause_t">пауза</string>
+	<string name="trm_wait_start_off_t">ожидание условий запуска после пропадания питания</string>
+	<string name="trm_set_graph_t">режим задания графиков</string>
+	<string name="trm_set_prog_t">выбор программы и шага</string>
+	<string name="trm_end_t">останов после выполнения программы</string>
+	<string name="trm_alarm_s_t">авария (с сигнализацией)</string>
+	<string name="trm_alarm_t">авария (без сигнализации)</string>
+
+	<string name="trm_val_incorr">значение заведомо неверно</string>
+	<string name="trm_data_not_ready">данные не готовы</string>
+	<string name="trm_sensor_off">датчик отключен</string>
+	<string name="trm_temp_hi">велика темп. свободных концов ТП</string>
+	<string name="trm_temp_lo">мала темпе. свободных концов ТП</string>
+	<string name="trm_calc_val_hi">вычисленное значение слишком велико</string>
+	<string name="trm_calc_val_lo">вычисленное значение слишком мало</string>
+	<string name="trm_short_circuit">короткое замыкание</string>
+	<string name="trm_sensor_breakage">обрыв датчика</string>
+	<string name="trm_adc_no_comm">отсутствие связи с АЦП</string>
+	<string name="trm_cfactor_incorr">некорр. калибр. коэфф.</string>
+
+	<string name="trg_ex_bp1">давл. газа вх. вне зоны допуска</string>
+	<string name="trg_ex_bp2">давл. газа гор. вне зоны допуска</string>
+	<string name="trg_ex_bp3">разрежение вне зоны допуска</string>
+	<string name="trg_ex_temp">аварийная температура</string>
+	<string name="trg_ex_bp2_up">повысьте вручную давл. газа гор.</string>
+	<string name="trg_ex_bp2_down">понизьте вручную давл. газа гор.</string>
+	<string name="trg_ex_ign_re">повторный розжиг</string>
+	<string name="trg_ex_io">ошибки модулей В/В</string>
+	<string name="trg_ex_em">ошибки исп. механизмов, датчиков</string>
+	<string name="trg_ex_flame">нет пламени</string>
+	<string name="trg_ex_step_stm">некорр. значение "Начать шаг с..."</string>
+	<string name="trg_ex_step_tm">не задана длительность шага</string>
+	<string name="trg_ex_step_end">тип шага — "Конец программы"</string>
+	<string name="trg_ex_proc_set">процесс не утвержден</string>
+	<string name="trg_ex_man_deb">режим Ручной или Наладчика</string>
+	
+	<string name="trg_stage0">нет готовности</string>
+	<string name="trg_stage1">готовность запуска</string>
+	<string name="trg_stage2">пуск (инициализация)</string>
+	<string name="trg_stage3">пуск (продувка)</string>
+	<string name="trg_stage4">пуск (розжиг)</string>
+	<string name="trg_stage5">пуск (ожидание пламени)</string>
+	<string name="trg_stage6">пуск (стабилизация пламени)</string>
+	<string name="trg_stage7">пуск (прогрев)</string>
+	<string name="trg_stage8">регулирование</string>
+	<string name="trg_stage9">останов (гашение пламени)</string>
+	<string name="trg_stage10">останов (продувка)</string>
+	<string name="trg_stage11">останов (инициализация)</string>
+	<string name="trg_stage12">останов (регулирование)</string>
+	<string name="trg_stage13">авария (гашение пламени)</string>
+	<string name="trg_stage14">авария (продувка)</string>
+	<string name="trg_stage15">авария (инициализация)</string>
+	<string name="trg_stage16">авария</string>
+	<string name="trg_stage17">останов по кнопке (гашение пламени)</string>
+	<string name="trg_stage18">останов по кнопке (продувка)</string>
+	<string name="trg_stage19">останов по кнопке (инициализация)</string>
+	<string name="trg_stage20">останов по кнопке</string>
+	<string name="trg_stage21">конец программы (гашение пламени)</string>
+	<string name="trg_stage22">конец программы (продувка)</string>
+	<string name="trg_stage23">конец программы (инициализация)</string>
+	<string name="trg_stage24">конец программы</string>
+	<string name="trg_stage25">пуск (инициализация)</string>
+	<string name="trg_stage26">пуск (рециркуляция)</string>
+
+	<string name="trg_mm">ручной</string>
+	<string name="trg_am">автомат</string>
+	<string name="trg_dm">наладчик</string>
+	
+	<string name="trg_ty">газ</string>
+	<string name="trp_ty">пар</string>
+	
+	<string name="stamp">Дата</string>
+	<string name="channel">Канал</string>
+	<string name="value">Значение</string>
+	
+</resources>

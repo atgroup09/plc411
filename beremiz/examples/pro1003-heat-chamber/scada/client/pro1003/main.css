@@ -1,0 +1,182 @@
+/*	CSS DOCUMENT
+*	UTF-8
+*/
+
+/*  pro1003
+*   webSCADA client / UI styles
+*   AT09 (atgroup09@gmail.com), 2023
+*
+*   The JavaScript code in this page is free software: you can
+*   redistribute it and/or modify it under the terms of the GNU
+*   General Public License (GNU GPL) as published by the Free Software
+*   Foundation, either version 3 of the License, or (at your option)
+*   any later version.  The code is distributed WITHOUT ANY WARRANTY;
+*   without even the implied warranty of MERCHANTABILITY or FITNESS
+*   FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+*
+*   As additional permission under GNU GPL version 3 section 7, you
+*   may distribute non-source (e.g., minimized or compacted) forms of
+*   that code without the copy of the GNU GPL normally required by
+*   section 4, provided you include this license notice and a URL
+*   through which recipients can access the Corresponding Source.
+*/
+
+
+.ui-main-placeholder-loc {
+	width: 1069px;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+
+#Chart {
+	height: 200px;
+}
+
+
+#LED_bil {
+    left: 254px;
+    top: 262px;
+}
+
+#H001_bil {
+    left: 515px;
+    top: 263px;
+}
+
+#C001_bil {
+    left: 818px;
+    top: 285px;
+}
+
+#HS001_bil {
+    left: 983px;
+    top: 193px;
+}
+
+#HS002_bil {
+    left: 983px;
+    top: 250px;
+}
+
+#ALARM_bil {
+    left: 506px;
+    top: 43px;
+	display: none;
+}
+
+
+#PLC_tbox {
+    left: 116px;
+    top: 262px;
+}
+
+#PLC_t {
+    left: 24px;
+    top: 268px;
+}
+
+#DHI_tbox {
+    left: 116px;
+    top: 92px;
+}
+
+#DHI_t {
+    left: 24px;
+    top: 100px;
+}
+
+#THI_tbox {
+    left: 116px;
+    top: 122px;
+}
+
+#THI_t {
+    left: 24px;
+    top: 130px;
+}
+
+#DLO_tbox {
+    left: 116px;
+    top: 152px;
+}
+
+#DLO_t {
+    left: 24px;
+    top: 160px;
+}
+
+#TLO_tbox {
+    left: 116px;
+    top: 182px;
+}
+
+#TLO_t {
+    left: 24px;
+    top: 190px;
+}
+
+#ID_tbox {
+    left: 316px;
+    top: 62px;
+}
+
+#ID_t {
+    left: 224px;
+    top: 72px;
+}
+
+#SP_tbox {
+    left: 316px;
+    top: 93px;
+}
+
+#SP_t {
+    left: 224px;
+    top: 100px;
+}
+
+#D_tbox {
+    left: 316px;
+    top: 123px;
+}
+
+#D_t {
+    left: 224px;
+    top: 130px;
+}
+
+#TT001_tbox {
+    left: 490px;
+    top: 93px;
+}
+
+#TT001_t {
+    left: 400px;
+    top: 63px;
+}
+
+#TB_tbox {
+    left: 889px;
+    top: 325px;
+}
+
+#TB_t {
+    left: 846px;
+    top: 355px;
+}
+
+#HS001_tbox {
+    left: 889px;
+    top: 158px;
+}
+
+#HS002_tbox {
+    left: 889px;
+    top: 295px;
+}
+
+#STATE_tbox {
+    left: 236px;
+    top: 20px;
+}
