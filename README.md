@@ -49,6 +49,6 @@
   - control program execute
   - IDE Beremiz support
 - Control program
-  - IDE Beremiz YAPLC 1.0.0
+  - IDE Beremiz YAPLC 1.2.0 PLC411
 
 ![memory](./images/plc411-memory.png)

@@ -1,0 +1,7 @@
+N;GID;Table;Addr;Type;Str;
+0;10;DISC.INPUTS;0;BOOL;"DI0 Norm: Value"
+1;10;DISC.INPUTS;1;BOOL;"DI1 Norm: Value"
+8;113;DISC.INPUTS;2;BOOL;"DI0 Tach: Setpoint is reached"
+9;113;DISC.INPUTS;3;BOOL;"DI1 Tach: Setpoint is reached"
+16;123;DISC.INPUTS;4;BOOL;"DI0 Cntr: Setpoint is reached"
+17;123;DISC.INPUTS;5;BOOL;"DI1 Cntr: Setpoint is reached"

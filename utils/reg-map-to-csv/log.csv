@@ -1,0 +1,164 @@
+N;GID;Data.Table;Data.Addr;Beremiz.Addr;ModBus.Table;ModBus.Addr;Retain;Type;Str
+0;10;Booleans;0;%IX1.0.1.1;DISC.INPUTS;0;-;BOOL;DI0 Norm: Value
+1;10;Booleans;1;%IX1.1.1.1;DISC.INPUTS;1;-;BOOL;DI1 Norm: Value
+2;11;Numbers;0;%IW1.0.2.1;INPUTS;0;-;WORD;DI0 Tach: Value
+3;11;Numbers;1;%IW1.1.2.1;INPUTS;1;-;WORD;DI1 Tach: Value
+4;111;Numbers;2;%MW1.0.2.2;HOLDINGS;0;+;WORD;DI0 Tach: Setpoint
+5;111;Numbers;3;%MW1.1.2.2;HOLDINGS;1;+;WORD;DI1 Tach: Setpoint
+6;112;Booleans;2;%MX1.0.2.3;COILS;0;+;BOOL;DI0 Tach: Allow to work by setpoint
+7;112;Booleans;3;%MX1.1.2.3;COILS;1;+;BOOL;DI1 Tach: Allow to work by setpoint
+8;113;Booleans;4;%MX1.0.2.4;DISC.INPUTS;2;-;BOOL;DI0 Tach: Setpoint is reached
+9;113;Booleans;5;%MX1.1.2.4;DISC.INPUTS;3;-;BOOL;DI1 Tach: Setpoint is reached
+10;12;Numbers;4;%ID1.0.3.1;INPUTS;2;-;DWORD;DI0 Cntr: Value
+11;12;Numbers;6;%ID1.1.3.1;INPUTS;4;-;DWORD;DI1 Cntr: Value
+12;121;Numbers;8;%MD1.0.3.2;HOLDINGS;2;+;DWORD;DI0 Cntr: Setpoint
+13;121;Numbers;10;%MD1.1.3.2;HOLDINGS;4;+;DWORD;DI1 Cntr: Setpoint
+14;122;Booleans;6;%MX1.0.3.3;COILS;2;+;BOOL;DI0 Cntr: Allow to work by setpoint
+15;122;Booleans;7;%MX1.1.3.3;COILS;3;+;BOOL;DI1 Cntr: Allow to work by setpoint
+16;123;Booleans;8;%MX1.0.3.4;DISC.INPUTS;4;-;BOOL;DI0 Cntr: Setpoint is reached
+17;123;Booleans;9;%MX1.1.3.4;DISC.INPUTS;5;-;BOOL;DI1 Cntr: Setpoint is reached
+18;13;Numbers;12;%MB1.0.4;HOLDINGS;6;+;BYTE;DI0: Mode
+19;13;Numbers;13;%MB1.1.4;HOLDINGS;7;+;BYTE;DI1: Mode
+20;14;Booleans;10;%MX1.0.5;COILS;4;+;BOOL;DI0: Reset all counters
+21;14;Booleans;11;%MX1.1.5;COILS;5;+;BOOL;DI1: Reset all counters
+22;15;Numbers;14;%MB1.0.6;INPUTS;6;-;BYTE;DI0: Status
+23;15;Numbers;15;%MB1.1.6;INPUTS;7;-;BYTE;DI1: Status
+24;16;Numbers;16;%MD1.0.7;HOLDINGS;8;+;DWORD;DI0: Filter delay
+25;16;Numbers;18;%MD1.1.7;HOLDINGS;10;+;DWORD;DI1: Filter delay
+26;20;Booleans;12;%QX2.0.1.1;COILS;6;-;BOOL;DO0 Norm: Value
+27;20;Booleans;13;%QX2.1.1.1;COILS;7;-;BOOL;DO1 Norm: Value
+28;21;Booleans;14;%QX2.0.2.1;COILS;8;-;BOOL;DO0 Fast: Value
+29;21;Booleans;15;%QX2.1.2.1;COILS;9;-;BOOL;DO1 Fast: Value
+30;22;Numbers;20;%QD2.0.3.1;HOLDINGS;12;-;REAL;DO0 PWM: Fill Factor, 
+31;22;Numbers;22;%QD2.1.3.1;HOLDINGS;14;-;REAL;DO1 PWM: Fill Factor, 
+32;23;Booleans;16;%MX2.0.3.2;COILS;10;+;BOOL;DO0 PWM: Allow to work
+33;23;Booleans;17;%MX2.1.3.2;COILS;11;+;BOOL;DO1 PWM: Allow to work
+34;24;Numbers;24;%MD2.0.3.3;HOLDINGS;16;+;REAL;DO0 PWM: Period, ms
+35;24;Numbers;26;%MD2.1.3.3;HOLDINGS;18;+;REAL;DO1 PWM: Period, ms
+36;25;Numbers;28;%MB2.0.4;HOLDINGS;20;+;BYTE;DO0: Mode
+37;25;Numbers;29;%MB2.1.4;HOLDINGS;21;+;BYTE;DO1: Mode
+38;26;Numbers;30;%MB2.0.5;INPUTS;8;-;BYTE;DO0: Status
+39;26;Numbers;31;%MB2.1.5;INPUTS;9;-;BYTE;DO1: Status
+40;30;Numbers;32;%ID3.0.1;INPUTS;10;-;REAL;AI0: Val
+41;30;Numbers;34;%ID3.1.1;INPUTS;12;-;REAL;AI1: Val
+42;30;Numbers;36;%ID3.2.1;INPUTS;14;-;REAL;AI2: Val
+43;31;Numbers;38;%MB3.0.2;HOLDINGS;22;+;BYTE;AI0: Mode
+44;31;Numbers;39;%MB3.1.2;HOLDINGS;23;+;BYTE;AI1: Mode
+45;31;Numbers;40;%MB3.2.2;HOLDINGS;24;+;BYTE;AI2: Mode
+46;32;Numbers;41;%MB3.0.3;INPUTS;16;-;BYTE;AI0: Status
+47;32;Numbers;42;%MB3.1.3;INPUTS;17;-;BYTE;AI1: Status
+48;32;Numbers;43;%MB3.2.3;INPUTS;18;-;BYTE;AI2: Status
+49;33;Numbers;44;%MD3.0.4;HOLDINGS;25;+;REAL;AI0: Custom scale factor Ka
+50;33;Numbers;46;%MD3.1.4;HOLDINGS;27;+;REAL;AI1: Custom scale factor Ka
+51;33;Numbers;48;%MD3.2.4;HOLDINGS;29;+;REAL;AI2: Custom scale factor Ka
+52;34;Numbers;50;%MD3.0.5;HOLDINGS;31;+;REAL;AI0: Custom scale factor Kb
+53;34;Numbers;52;%MD3.1.5;HOLDINGS;33;+;REAL;AI1: Custom scale factor Kb
+54;34;Numbers;54;%MD3.2.5;HOLDINGS;35;+;REAL;AI2: Custom scale factor Kb
+55;70;Numbers;56;%MW7.1.0;INPUTS;19;-;WORD;PLC Hardware code
+56;70;Numbers;57;%MW7.1.1;INPUTS;20;-;WORD;PLC Hardware variant
+57;70;Numbers;58;%MW7.1.2;INPUTS;21;-;WORD;RTE version
+58;70;Numbers;59;%MW7.1.3;INPUTS;22;-;WORD;RTE version (year)
+59;70;Numbers;60;%MW7.1.4;INPUTS;23;-;WORD;RTE version (day month)
+60;70;Numbers;61;%MW7.1.5;INPUTS;24;-;WORD;System statuses (1), packed
+61;70;Numbers;62;%MW7.1.6;INPUTS;25;-;WORD;System statuses (2), packed
+62;71;Numbers;63;%MW7.2.0;HOLDINGS;37;+;WORD;SFTY_TIM_TM
+63;71;Numbers;64;%MW7.2.1;HOLDINGS;38;+;WORD;WD_TIM_TM
+62;72;Booleans;18;%MX7.3.0;COILS;12;-;BOOL;LED_USER
+63;72;Booleans;19;%MX7.3.1;COILS;13;-;BOOL;SFTY_TIM_RST
+64;72;Booleans;20;%MX7.3.2;COILS;14;-;BOOL;WD_TIM_RST
+65;80;Booleans;21;%MX8.1.0;COILS;15;+;BOOL;User Data 0
+66;80;Booleans;22;%MX8.1.1;COILS;16;+;BOOL;User Data 1
+67;80;Booleans;23;%MX8.1.2;COILS;17;+;BOOL;User Data 2
+68;80;Booleans;24;%MX8.1.3;COILS;18;+;BOOL;User Data 3
+69;80;Booleans;25;%MX8.1.4;COILS;19;+;BOOL;User Data 4
+70;80;Booleans;26;%MX8.1.5;COILS;20;+;BOOL;User Data 5
+71;80;Booleans;27;%MX8.1.6;COILS;21;+;BOOL;User Data 6
+72;80;Booleans;28;%MX8.1.7;COILS;22;+;BOOL;User Data 7
+73;80;Booleans;29;%MX8.1.8;COILS;23;+;BOOL;User Data 8
+74;80;Booleans;30;%MX8.1.9;COILS;24;+;BOOL;User Data 9
+75;80;Booleans;31;%MX8.1.10;COILS;25;+;BOOL;User Data 10
+76;80;Booleans;32;%MX8.1.11;COILS;26;+;BOOL;User Data 11
+77;80;Booleans;33;%MX8.1.12;COILS;27;+;BOOL;User Data 12
+78;80;Booleans;34;%MX8.1.13;COILS;28;+;BOOL;User Data 13
+79;80;Booleans;35;%MX8.1.14;COILS;29;+;BOOL;User Data 14
+80;80;Booleans;36;%MX8.1.15;COILS;30;+;BOOL;User Data 15
+81;80;Booleans;37;%MX8.1.16;COILS;31;-;BOOL;User Data 16
+82;80;Booleans;38;%MX8.1.17;COILS;32;-;BOOL;User Data 17
+83;80;Booleans;39;%MX8.1.18;COILS;33;-;BOOL;User Data 18
+84;80;Booleans;40;%MX8.1.19;COILS;34;-;BOOL;User Data 19
+85;80;Booleans;41;%MX8.1.20;COILS;35;-;BOOL;User Data 20
+86;80;Booleans;42;%MX8.1.21;COILS;36;-;BOOL;User Data 21
+87;80;Booleans;43;%MX8.1.22;COILS;37;-;BOOL;User Data 22
+88;80;Booleans;44;%MX8.1.23;COILS;38;-;BOOL;User Data 23
+89;80;Booleans;45;%MX8.1.24;COILS;39;-;BOOL;User Data 24
+90;80;Booleans;46;%MX8.1.25;COILS;40;-;BOOL;User Data 25
+91;80;Booleans;47;%MX8.1.26;COILS;41;-;BOOL;User Data 26
+92;80;Booleans;48;%MX8.1.27;COILS;42;-;BOOL;User Data 27
+93;80;Booleans;49;%MX8.1.28;COILS;43;-;BOOL;User Data 28
+94;80;Booleans;50;%MX8.1.29;COILS;44;-;BOOL;User Data 29
+95;80;Booleans;51;%MX8.1.30;COILS;45;-;BOOL;User Data 30
+96;80;Booleans;52;%MX8.1.31;COILS;46;-;BOOL;User Data 31
+97;81;Numbers;65;%MW8.2.0;HOLDINGS;39;+;WORD;User Data 0
+98;81;Numbers;66;%MW8.2.1;HOLDINGS;40;+;WORD;User Data 1
+99;81;Numbers;67;%MW8.2.2;HOLDINGS;41;+;WORD;User Data 2
+100;81;Numbers;68;%MW8.2.3;HOLDINGS;42;+;WORD;User Data 3
+101;81;Numbers;69;%MW8.2.4;HOLDINGS;43;+;WORD;User Data 4
+102;81;Numbers;70;%MW8.2.5;HOLDINGS;44;+;WORD;User Data 5
+103;81;Numbers;71;%MW8.2.6;HOLDINGS;45;+;WORD;User Data 6
+104;81;Numbers;72;%MW8.2.7;HOLDINGS;46;+;WORD;User Data 7
+105;81;Numbers;73;%MW8.2.8;HOLDINGS;47;+;WORD;User Data 8
+106;81;Numbers;74;%MW8.2.9;HOLDINGS;48;+;WORD;User Data 9
+107;81;Numbers;75;%MW8.2.10;HOLDINGS;49;+;WORD;User Data 10
+108;81;Numbers;76;%MW8.2.11;HOLDINGS;50;+;WORD;User Data 11
+109;81;Numbers;77;%MW8.2.12;HOLDINGS;51;+;WORD;User Data 12
+110;81;Numbers;78;%MW8.2.13;HOLDINGS;52;+;WORD;User Data 13
+111;81;Numbers;79;%MW8.2.14;HOLDINGS;53;+;WORD;User Data 14
+112;81;Numbers;80;%MW8.2.15;HOLDINGS;54;+;WORD;User Data 15
+113;81;Numbers;81;%MW8.2.16;HOLDINGS;55;+;WORD;User Data 16
+114;81;Numbers;82;%MW8.2.17;HOLDINGS;56;+;WORD;User Data 17
+115;81;Numbers;83;%MW8.2.18;HOLDINGS;57;+;WORD;User Data 18
+116;81;Numbers;84;%MW8.2.19;HOLDINGS;58;+;WORD;User Data 19
+117;81;Numbers;85;%MW8.2.20;HOLDINGS;59;+;WORD;User Data 20
+118;81;Numbers;86;%MW8.2.21;HOLDINGS;60;+;WORD;User Data 21
+119;81;Numbers;87;%MW8.2.22;HOLDINGS;61;+;WORD;User Data 22
+120;81;Numbers;88;%MW8.2.23;HOLDINGS;62;+;WORD;User Data 23
+121;81;Numbers;89;%MW8.2.24;HOLDINGS;63;+;WORD;User Data 24
+122;81;Numbers;90;%MW8.2.25;HOLDINGS;64;+;WORD;User Data 25
+123;81;Numbers;91;%MW8.2.26;HOLDINGS;65;+;WORD;User Data 26
+124;81;Numbers;92;%MW8.2.27;HOLDINGS;66;+;WORD;User Data 27
+125;81;Numbers;93;%MW8.2.28;HOLDINGS;67;+;WORD;User Data 28
+126;81;Numbers;94;%MW8.2.29;HOLDINGS;68;+;WORD;User Data 29
+127;81;Numbers;95;%MW8.2.30;HOLDINGS;69;+;WORD;User Data 30
+128;81;Numbers;96;%MW8.2.31;HOLDINGS;70;+;WORD;User Data 31
+129;81;Numbers;97;%MW8.2.32;HOLDINGS;71;-;WORD;User Data 32
+130;81;Numbers;98;%MW8.2.33;HOLDINGS;72;-;WORD;User Data 33
+131;81;Numbers;99;%MW8.2.34;HOLDINGS;73;-;WORD;User Data 34
+132;81;Numbers;100;%MW8.2.35;HOLDINGS;74;-;WORD;User Data 35
+133;81;Numbers;101;%MW8.2.36;HOLDINGS;75;-;WORD;User Data 36
+134;81;Numbers;102;%MW8.2.37;HOLDINGS;76;-;WORD;User Data 37
+135;81;Numbers;103;%MW8.2.38;HOLDINGS;77;-;WORD;User Data 38
+136;81;Numbers;104;%MW8.2.39;HOLDINGS;78;-;WORD;User Data 39
+137;81;Numbers;105;%MW8.2.40;HOLDINGS;79;-;WORD;User Data 40
+138;81;Numbers;106;%MW8.2.41;HOLDINGS;80;-;WORD;User Data 41
+139;81;Numbers;107;%MW8.2.42;HOLDINGS;81;-;WORD;User Data 42
+140;81;Numbers;108;%MW8.2.43;HOLDINGS;82;-;WORD;User Data 43
+141;81;Numbers;109;%MW8.2.44;HOLDINGS;83;-;WORD;User Data 44
+142;81;Numbers;110;%MW8.2.45;HOLDINGS;84;-;WORD;User Data 45
+143;81;Numbers;111;%MW8.2.46;HOLDINGS;85;-;WORD;User Data 46
+144;81;Numbers;112;%MW8.2.47;HOLDINGS;86;-;WORD;User Data 47
+145;81;Numbers;113;%MW8.2.48;HOLDINGS;87;-;WORD;User Data 48
+146;81;Numbers;114;%MW8.2.49;HOLDINGS;88;-;WORD;User Data 49
+147;81;Numbers;115;%MW8.2.50;HOLDINGS;89;-;WORD;User Data 50
+148;81;Numbers;116;%MW8.2.51;HOLDINGS;90;-;WORD;User Data 51
+149;81;Numbers;117;%MW8.2.52;HOLDINGS;91;-;WORD;User Data 52
+150;81;Numbers;118;%MW8.2.53;HOLDINGS;92;-;WORD;User Data 53
+151;81;Numbers;119;%MW8.2.54;HOLDINGS;93;-;WORD;User Data 54
+152;81;Numbers;120;%MW8.2.55;HOLDINGS;94;-;WORD;User Data 55
+153;81;Numbers;121;%MW8.2.56;HOLDINGS;95;-;WORD;User Data 56
+154;81;Numbers;122;%MW8.2.57;HOLDINGS;96;-;WORD;User Data 57
+155;81;Numbers;123;%MW8.2.58;HOLDINGS;97;-;WORD;User Data 58
+156;81;Numbers;124;%MW8.2.59;HOLDINGS;98;-;WORD;User Data 59
+157;81;Numbers;125;%MW8.2.60;HOLDINGS;99;-;WORD;User Data 60
+158;81;Numbers;126;%MW8.2.61;HOLDINGS;100;-;WORD;User Data 61
+159;81;Numbers;127;%MW8.2.62;HOLDINGS;101;-;WORD;User Data 62
+160;81;Numbers;128;%MW8.2.63;HOLDINGS;102;-;WORD;User Data 63

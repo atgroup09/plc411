@@ -1,0 +1,305 @@
+/* @page reg.c
+ *       Registers
+ *       2020-2022
+ */
+
+#include "reg-import.h"
+
+static char REG_SYS_STAT_STR[REG_SYS_STAT_SZ][30] = {
+REG_SYS_STAT__STR_HW_CODE,
+REG_SYS_STAT__STR_HW_VAR,
+REG_SYS_STAT__STR_RTE_VER,
+REG_SYS_STAT__STR_RTE_YYYY,
+REG_SYS_STAT__STR_RTE_DDMM,
+REG_SYS_STAT__STR_STAT1,
+REG_SYS_STAT__STR_STAT2
+};
+
+static char REG_SYS_SET_STR[REG_SYS_SET_SZ][30] = {
+REG_SYS_SET__STR_SFTY_TIM_TM,
+REG_SYS_SET__STR_WD_TIM_TM
+};
+
+static char REG_SYS_CMD_STR[REG_SYS_CMD_SZ][30] = {
+REG_SYS_CMD__STR_LED_USER,
+REG_SYS_CMD__STR_SFTY_TIM_RST,
+REG_SYS_CMD__STR_WD_TIM_RST
+};
+
+static char REG_TYPES_STR[17][8] = {
+"NONE",
+"BYTE",
+"WORD",
+"DWORD",
+"LWORD",
+"FLOAT",
+"DOUBLE",
+"SINT",
+"INT",
+"DINT",
+"LINT",
+"BOOL",
+"UINT",
+"UDINT",
+"ULINT",
+"REAL",
+"LREAL"
+};
+
+static char STR_BUFF[100];
+
+FILE *FP_MB[5] = {
+0,
+0, //COILS
+0, //DISC
+0, //HOLD
+0  //INPUTS
+};
+
+char FN_MB[5][16] = {
+"",
+"log-coils.csv", //COILS
+"log-disc.csv",  //DISC
+"log-hold.csv",  //HOLD
+"log-inputs.csv" //INPUTS
+};
+
+char STR_MB[5][12] = {
+"",
+"COILS",
+"DISC.INPUTS",
+"HOLDINGS",
+"INPUTS"
+};
+
+
+/** @brief  Init. group of registers in REGS.
+ *  @param  GIDIn     - Unique ID of group/subgroup.
+ *  @param  ZoneIn    - Zone ID.
+ *  @param  TypeSzIn  - Data Type Size ID.
+ *  @param  GroupIn   - Group ID.
+ *  @param  TypeIn    - Data Type ID.
+ *  @param  PosIn     - Start position in REGS (offset).
+ *  @param  SzIn      - Number of registers.
+ *  @param  SaddrIn   - Start register address.
+ *  @param  MbTableIn - ModBus Table ID.
+ *  @param  MbPosIn   - Start position in ModBus table (offset).
+ *  @param  A00In     - Value of a_data[0] (<0 - not used; ex. -10 - use calculated register address).
+ *  @param  A01In     - Value of a_data[1] (<0 - not used; ex. -10 - use calculated register address).
+ *  @param  A02In     - Value of a_data[2] (<0 - not used; ex. -10 - use calculated register address).
+ *  @param  DataTableIn - Data Table ID.
+ *  @param  DataPosIn   - Start position in Data table (offset).
+ *  @param  RetainIn     - Retain (EEPROM) flag:
+ *  @arg                   = 0 - not retain
+ *  @arg                   = 1 - retain
+ *  @param  TitleIn     - String title.
+ *  @return The number of inited registers.
+ */
+uint16_t REG_InitRegs(uint16_t GIDIn, uint8_t ZoneIn, uint8_t TypeSzIn, uint16_t GroupIn, uint8_t TypeIn, uint16_t PosIn, uint16_t SzIn, uint16_t SaddrIn, uint8_t MbTableIn, uint16_t MbPosIn, int32_t A00In, int32_t A01In, int32_t A02In, uint8_t DataTableIn, uint16_t DataPosIn, uint16_t RetainIn, const char *TitleIn)
+{
+    uint16_t PosEnd  = PosIn + SzIn - 1;
+    uint16_t Addr    = SaddrIn;
+    uint16_t AddrEnd = SaddrIn + SzIn - 1;
+    uint8_t  WSz     = Type_GetWSz(TypeIn);
+    uint8_t  Sz      = Type_GetSz(TypeIn);
+    uint16_t Res = 0, i = 0;
+    uint16_t DataAddr = DataPosIn;
+    uint16_t Retain  = 0;
+    REG_t    Reg;
+
+    char Zone[3]    = {'I', 'M', 'Q'};
+    char TypeSz[5]  = {'X', 'B', 'W', 'D', 'L'};
+
+    (void)Sz;
+
+    //Test position, size and address
+    if(PosIn < REG_SZ && SzIn > 0 && PosEnd < REG_SZ && SaddrIn < REG_ADDR_MAX && AddrEnd < REG_ADDR_MAX && WSz > 0)
+    {
+        for(i=PosIn; i<=PosEnd; i++, Addr++, Res++)
+        {
+            Reg.GID       = GIDIn;
+            Reg.iReg      = i;
+            Reg.iGroup    = Addr;
+            Reg.Type      = TypeIn;
+            Reg.DataTable = DataTableIn;
+            DataAddr      = REG_CALC_MBADDR(Addr, WSz, DataPosIn);
+            Reg.MbTable   = MbTableIn;
+            Reg.MbAddr    = REG_CALC_MBADDR(Addr, WSz, MbPosIn);
+            Reg.Retain    = RetainIn;
+
+            //N;GID;
+            fprintf(fp, "%d;%d;", i, Reg.GID);
+            if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], "%d;%d;", i, Reg.GID);
+
+            //Data.Table;
+            switch(DataTableIn)
+            {
+                case REG_DATA_BOOL_TABLE_ID:
+                    fprintf(fp, "Booleans");
+                    break;
+                case REG_DATA_NUMB_TABLE_ID:
+                    fprintf(fp, "Numbers");
+                    break;
+                default:
+                    fprintf(fp, "---");
+            }
+            fprintf(fp, ";");
+
+            //Data.Addr;
+            fprintf(fp, "%d;", DataAddr);
+
+            //Beremiz.Addr
+            fprintf(fp, "%%%c%c%d", Zone[ZoneIn], TypeSz[TypeSzIn], GroupIn);
+
+            if(A00In == REG_AXX_ADDR)
+            {
+                fprintf(fp, ".%d", Addr);
+            }
+            else if(A00In != REG_AXX_NONE)
+            {
+                fprintf(fp, ".%d", A00In);
+            }
+
+            if(A01In == REG_AXX_ADDR)
+            {
+                fprintf(fp, ".%d", Addr);
+            }
+            else if(A01In != REG_AXX_NONE)
+            {
+                fprintf(fp, ".%d", A01In);
+            }
+
+            if(A02In == REG_AXX_ADDR)
+            {
+                fprintf(fp, ".%d", Addr);
+            }
+            else if(A02In != REG_AXX_NONE)
+            {
+                fprintf(fp, ".%d", A02In);
+            }
+            fprintf(fp, ";");
+
+            //ModBus.Table;
+            fprintf(fp, STR_MB[Reg.MbTable]);
+            fprintf(fp, ";");
+            fprintf(FP_MB[Reg.MbTable], STR_MB[Reg.MbTable]);
+            fprintf(FP_MB[Reg.MbTable], ";");
+
+            //ModBus.Addr;
+            fprintf(fp, "%d;", Reg.MbAddr);
+            if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], "%d;", Reg.MbAddr);
+
+            //Retain;
+            if(Retain < Reg.Retain)
+            {
+                fprintf(fp, "+;");
+                Retain++;
+            }
+            else
+            {
+                fprintf(fp, "-;");
+            }
+
+            //Type
+            fprintf(fp, REG_TYPES_STR[Reg.Type]);
+            fprintf(fp, ";");
+            if(FP_MB[Reg.MbTable])
+            {
+                fprintf(FP_MB[Reg.MbTable], REG_TYPES_STR[Reg.Type]);
+                fprintf(FP_MB[Reg.MbTable], ";");
+            }
+
+            //Str
+            if(TitleIn)
+            {
+                sprintf(STR_BUFF, TitleIn, Addr);
+                fprintf(fp, "\"");
+                if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], "\"");
+                fprintf(fp, STR_BUFF);
+                if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], STR_BUFF);
+                fprintf(fp, "\"");
+                if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], "\"");
+            }
+            else
+            {
+                if(Reg.GID == REG_SYS_STAT__GID)
+                {
+                    fprintf(fp, REG_SYS_STAT_STR[Addr]);
+                    if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], REG_SYS_STAT_STR[Addr]);
+                }
+                else if(Reg.GID == REG_SYS_SET__GID)
+                {
+                    fprintf(fp, REG_SYS_SET_STR[Addr]);
+                    if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], REG_SYS_SET_STR[Addr]);
+                }
+                else if(Reg.GID == REG_SYS_CMD__GID)
+                {
+                    fprintf(fp, REG_SYS_CMD_STR[Addr]);
+                    if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], REG_SYS_CMD_STR[Addr]);
+                }
+                else
+                {
+                    fprintf(fp, "---");
+                    if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], "---");
+                }
+            }
+
+            fprintf(fp, "\n");
+            if(FP_MB[Reg.MbTable]) fprintf(FP_MB[Reg.MbTable], "\n");
+        }
+    }
+
+    return (Res);
+}
+
+
+/** @brief  Init. registers.
+ *  @param  None.
+ *  @return The number of inited registers.
+ */
+uint16_t REG_Init(void)
+{
+    uint16_t Res = 0;
+
+    //DI
+    Res += REG_InitRegs(REG_DI_NORM_VAL__GID, REG_DI_NORM_VAL__ZONE, REG_DI_NORM_VAL__TYPESZ, REG_DI_NORM_VAL__GROUP, REG_DI_NORM_VAL__TYPE, REG_DI_NORM_VAL__POS, REG_DI_NORM_VAL__SZ, REG_DI_NORM_VAL__SADDR, REG_DI_NORM_VAL__MBTABLE, REG_DI_NORM_VAL__MBPOS, REG_DI_NORM_VAL__A00, REG_DI_NORM_VAL__A01, REG_DI_NORM_VAL__A02, REG_DI_NORM_VAL__DTABLE, REG_DI_NORM_VAL__DPOS, REG_DI_NORM_VAL__RETAIN, REG_DI_NORM_VAL__STR);
+    Res += REG_InitRegs(REG_DI_TACH_VAL__GID, REG_DI_TACH_VAL__ZONE, REG_DI_TACH_VAL__TYPESZ, REG_DI_TACH_VAL__GROUP, REG_DI_TACH_VAL__TYPE, REG_DI_TACH_VAL__POS, REG_DI_TACH_VAL__SZ, REG_DI_TACH_VAL__SADDR, REG_DI_TACH_VAL__MBTABLE, REG_DI_TACH_VAL__MBPOS, REG_DI_TACH_VAL__A00, REG_DI_TACH_VAL__A01, REG_DI_TACH_VAL__A02, REG_DI_TACH_VAL__DTABLE, REG_DI_TACH_VAL__DPOS, REG_DI_TACH_VAL__RETAIN, REG_DI_TACH_VAL__STR);
+    Res += REG_InitRegs(REG_DI_TACH_SETPOINT__GID, REG_DI_TACH_SETPOINT__ZONE, REG_DI_TACH_SETPOINT__TYPESZ, REG_DI_TACH_SETPOINT__GROUP, REG_DI_TACH_SETPOINT__TYPE, REG_DI_TACH_SETPOINT__POS, REG_DI_TACH_SETPOINT__SZ, REG_DI_TACH_SETPOINT__SADDR, REG_DI_TACH_SETPOINT__MBTABLE, REG_DI_TACH_SETPOINT__MBPOS, REG_DI_TACH_SETPOINT__A00, REG_DI_TACH_SETPOINT__A01, REG_DI_TACH_SETPOINT__A02, REG_DI_TACH_SETPOINT__DTABLE, REG_DI_TACH_SETPOINT__DPOS, REG_DI_TACH_SETPOINT__RETAIN, REG_DI_TACH_SETPOINT__STR);
+    Res += REG_InitRegs(REG_DI_TACH_SETPOINT_ALLOW__GID, REG_DI_TACH_SETPOINT_ALLOW__ZONE, REG_DI_TACH_SETPOINT_ALLOW__TYPESZ, REG_DI_TACH_SETPOINT_ALLOW__GROUP, REG_DI_TACH_SETPOINT_ALLOW__TYPE, REG_DI_TACH_SETPOINT_ALLOW__POS, REG_DI_TACH_SETPOINT_ALLOW__SZ, REG_DI_TACH_SETPOINT_ALLOW__SADDR, REG_DI_TACH_SETPOINT_ALLOW__MBTABLE, REG_DI_TACH_SETPOINT_ALLOW__MBPOS, REG_DI_TACH_SETPOINT_ALLOW__A00, REG_DI_TACH_SETPOINT_ALLOW__A01, REG_DI_TACH_SETPOINT_ALLOW__A02, REG_DI_TACH_SETPOINT_ALLOW__DTABLE, REG_DI_TACH_SETPOINT_ALLOW__DPOS, REG_DI_TACH_SETPOINT_ALLOW__RETAIN, REG_DI_TACH_SETPOINT_ALLOW__STR);
+    Res += REG_InitRegs(REG_DI_TACH_SETPOINT_REACHED__GID, REG_DI_TACH_SETPOINT_REACHED__ZONE, REG_DI_TACH_SETPOINT_REACHED__TYPESZ, REG_DI_TACH_SETPOINT_REACHED__GROUP, REG_DI_TACH_SETPOINT_REACHED__TYPE, REG_DI_TACH_SETPOINT_REACHED__POS, REG_DI_TACH_SETPOINT_REACHED__SZ, REG_DI_TACH_SETPOINT_REACHED__SADDR, REG_DI_TACH_SETPOINT_REACHED__MBTABLE, REG_DI_TACH_SETPOINT_REACHED__MBPOS, REG_DI_TACH_SETPOINT_REACHED__A00, REG_DI_TACH_SETPOINT_REACHED__A01, REG_DI_TACH_SETPOINT_REACHED__A02, REG_DI_TACH_SETPOINT_REACHED__DTABLE, REG_DI_TACH_SETPOINT_REACHED__DPOS, REG_DI_TACH_SETPOINT_REACHED__RETAIN, REG_DI_TACH_SETPOINT_REACHED__STR);
+    Res += REG_InitRegs(REG_DI_CNTR_VAL__GID, REG_DI_CNTR_VAL__ZONE, REG_DI_CNTR_VAL__TYPESZ, REG_DI_CNTR_VAL__GROUP, REG_DI_CNTR_VAL__TYPE, REG_DI_CNTR_VAL__POS, REG_DI_CNTR_VAL__SZ, REG_DI_CNTR_VAL__SADDR, REG_DI_CNTR_VAL__MBTABLE, REG_DI_CNTR_VAL__MBPOS, REG_DI_CNTR_VAL__A00, REG_DI_CNTR_VAL__A01, REG_DI_CNTR_VAL__A02, REG_DI_CNTR_VAL__DTABLE, REG_DI_CNTR_VAL__DPOS, REG_DI_CNTR_VAL__RETAIN, REG_DI_CNTR_VAL__STR);
+    Res += REG_InitRegs(REG_DI_CNTR_SETPOINT__GID, REG_DI_CNTR_SETPOINT__ZONE, REG_DI_CNTR_SETPOINT__TYPESZ, REG_DI_CNTR_SETPOINT__GROUP, REG_DI_CNTR_SETPOINT__TYPE, REG_DI_CNTR_SETPOINT__POS, REG_DI_CNTR_SETPOINT__SZ, REG_DI_CNTR_SETPOINT__SADDR, REG_DI_CNTR_SETPOINT__MBTABLE, REG_DI_CNTR_SETPOINT__MBPOS, REG_DI_CNTR_SETPOINT__A00, REG_DI_CNTR_SETPOINT__A01, REG_DI_CNTR_SETPOINT__A02, REG_DI_CNTR_SETPOINT__DTABLE, REG_DI_CNTR_SETPOINT__DPOS, REG_DI_CNTR_SETPOINT__RETAIN, REG_DI_CNTR_SETPOINT__STR);
+    Res += REG_InitRegs(REG_DI_CNTR_SETPOINT_ALLOW__GID, REG_DI_CNTR_SETPOINT_ALLOW__ZONE, REG_DI_CNTR_SETPOINT_ALLOW__TYPESZ, REG_DI_CNTR_SETPOINT_ALLOW__GROUP, REG_DI_CNTR_SETPOINT_ALLOW__TYPE, REG_DI_CNTR_SETPOINT_ALLOW__POS, REG_DI_CNTR_SETPOINT_ALLOW__SZ, REG_DI_CNTR_SETPOINT_ALLOW__SADDR, REG_DI_CNTR_SETPOINT_ALLOW__MBTABLE, REG_DI_CNTR_SETPOINT_ALLOW__MBPOS, REG_DI_CNTR_SETPOINT_ALLOW__A00, REG_DI_CNTR_SETPOINT_ALLOW__A01, REG_DI_CNTR_SETPOINT_ALLOW__A02, REG_DI_CNTR_SETPOINT_ALLOW__DTABLE, REG_DI_CNTR_SETPOINT_ALLOW__DPOS, REG_DI_CNTR_SETPOINT_ALLOW__RETAIN, REG_DI_CNTR_SETPOINT_ALLOW__STR);
+    Res += REG_InitRegs(REG_DI_CNTR_SETPOINT_REACHED__GID, REG_DI_CNTR_SETPOINT_REACHED__ZONE, REG_DI_CNTR_SETPOINT_REACHED__TYPESZ, REG_DI_CNTR_SETPOINT_REACHED__GROUP, REG_DI_CNTR_SETPOINT_REACHED__TYPE, REG_DI_CNTR_SETPOINT_REACHED__POS, REG_DI_CNTR_SETPOINT_REACHED__SZ, REG_DI_CNTR_SETPOINT_REACHED__SADDR, REG_DI_CNTR_SETPOINT_REACHED__MBTABLE, REG_DI_CNTR_SETPOINT_REACHED__MBPOS, REG_DI_CNTR_SETPOINT_REACHED__A00, REG_DI_CNTR_SETPOINT_REACHED__A01, REG_DI_CNTR_SETPOINT_REACHED__A02, REG_DI_CNTR_SETPOINT_REACHED__DTABLE, REG_DI_CNTR_SETPOINT_REACHED__DPOS, REG_DI_CNTR_SETPOINT_REACHED__RETAIN, REG_DI_CNTR_SETPOINT_REACHED__STR);
+    Res += REG_InitRegs(REG_DI_MODE__GID, REG_DI_MODE__ZONE, REG_DI_MODE__TYPESZ, REG_DI_MODE__GROUP, REG_DI_MODE__TYPE, REG_DI_MODE__POS, REG_DI_MODE__SZ, REG_DI_MODE__SADDR, REG_DI_MODE__MBTABLE, REG_DI_MODE__MBPOS, REG_DI_MODE__A00, REG_DI_MODE__A01, REG_DI_MODE__A02, REG_DI_MODE__DTABLE, REG_DI_MODE__DPOS, REG_DI_MODE__RETAIN, REG_DI_MODE__STR);
+    Res += REG_InitRegs(REG_DI_RESET__GID, REG_DI_RESET__ZONE, REG_DI_RESET__TYPESZ, REG_DI_RESET__GROUP, REG_DI_RESET__TYPE, REG_DI_RESET__POS, REG_DI_RESET__SZ, REG_DI_RESET__SADDR, REG_DI_RESET__MBTABLE, REG_DI_RESET__MBPOS, REG_DI_RESET__A00, REG_DI_RESET__A01, REG_DI_RESET__A02, REG_DI_RESET__DTABLE, REG_DI_RESET__DPOS, REG_DI_RESET__RETAIN, REG_DI_RESET__STR);
+    Res += REG_InitRegs(REG_DI_STATUS__GID, REG_DI_STATUS__ZONE, REG_DI_STATUS__TYPESZ, REG_DI_STATUS__GROUP, REG_DI_STATUS__TYPE, REG_DI_STATUS__POS, REG_DI_STATUS__SZ, REG_DI_STATUS__SADDR, REG_DI_STATUS__MBTABLE, REG_DI_STATUS__MBPOS, REG_DI_STATUS__A00, REG_DI_STATUS__A01, REG_DI_STATUS__A02, REG_DI_STATUS__DTABLE, REG_DI_STATUS__DPOS, REG_DI_STATUS__RETAIN, REG_DI_STATUS__STR);
+    Res += REG_InitRegs(REG_DI_FILTER_DELAY__GID, REG_DI_FILTER_DELAY__ZONE, REG_DI_FILTER_DELAY__TYPESZ, REG_DI_FILTER_DELAY__GROUP, REG_DI_FILTER_DELAY__TYPE, REG_DI_FILTER_DELAY__POS, REG_DI_FILTER_DELAY__SZ, REG_DI_FILTER_DELAY__SADDR, REG_DI_FILTER_DELAY__MBTABLE, REG_DI_FILTER_DELAY__MBPOS, REG_DI_FILTER_DELAY__A00, REG_DI_FILTER_DELAY__A01, REG_DI_FILTER_DELAY__A02, REG_DI_FILTER_DELAY__DTABLE, REG_DI_FILTER_DELAY__DPOS, REG_DI_FILTER_DELAY__RETAIN, REG_DI_FILTER_DELAY__STR);
+
+    //DO
+    Res += REG_InitRegs(REG_DO_NORM_VAL__GID, REG_DO_NORM_VAL__ZONE, REG_DO_NORM_VAL__TYPESZ, REG_DO_NORM_VAL__GROUP, REG_DO_NORM_VAL__TYPE, REG_DO_NORM_VAL__POS, REG_DO_NORM_VAL__SZ, REG_DO_NORM_VAL__SADDR, REG_DO_NORM_VAL__MBTABLE, REG_DO_NORM_VAL__MBPOS, REG_DO_NORM_VAL__A00, REG_DO_NORM_VAL__A01, REG_DO_NORM_VAL__A02, REG_DO_NORM_VAL__DTABLE, REG_DO_NORM_VAL__DPOS, REG_DO_NORM_VAL__RETAIN, REG_DO_NORM_VAL__STR);
+    Res += REG_InitRegs(REG_DO_FAST_VAL__GID, REG_DO_FAST_VAL__ZONE, REG_DO_FAST_VAL__TYPESZ, REG_DO_FAST_VAL__GROUP, REG_DO_FAST_VAL__TYPE, REG_DO_FAST_VAL__POS, REG_DO_FAST_VAL__SZ, REG_DO_FAST_VAL__SADDR, REG_DO_FAST_VAL__MBTABLE, REG_DO_FAST_VAL__MBPOS, REG_DO_FAST_VAL__A00, REG_DO_FAST_VAL__A01, REG_DO_FAST_VAL__A02, REG_DO_FAST_VAL__DTABLE, REG_DO_FAST_VAL__DPOS, REG_DO_FAST_VAL__RETAIN, REG_DO_FAST_VAL__STR);
+    Res += REG_InitRegs(REG_DO_PWM_VAL__GID, REG_DO_PWM_VAL__ZONE, REG_DO_PWM_VAL__TYPESZ, REG_DO_PWM_VAL__GROUP, REG_DO_PWM_VAL__TYPE, REG_DO_PWM_VAL__POS, REG_DO_PWM_VAL__SZ, REG_DO_PWM_VAL__SADDR, REG_DO_PWM_VAL__MBTABLE, REG_DO_PWM_VAL__MBPOS, REG_DO_PWM_VAL__A00, REG_DO_PWM_VAL__A01, REG_DO_PWM_VAL__A02, REG_DO_PWM_VAL__DTABLE, REG_DO_PWM_VAL__DPOS, REG_DO_PWM_VAL__RETAIN, REG_DO_PWM_VAL__STR);
+    Res += REG_InitRegs(REG_DO_PWM_ALLOW__GID, REG_DO_PWM_ALLOW__ZONE, REG_DO_PWM_ALLOW__TYPESZ, REG_DO_PWM_ALLOW__GROUP, REG_DO_PWM_ALLOW__TYPE, REG_DO_PWM_ALLOW__POS, REG_DO_PWM_ALLOW__SZ, REG_DO_PWM_ALLOW__SADDR, REG_DO_PWM_ALLOW__MBTABLE, REG_DO_PWM_ALLOW__MBPOS, REG_DO_PWM_ALLOW__A00, REG_DO_PWM_ALLOW__A01, REG_DO_PWM_ALLOW__A02, REG_DO_PWM_ALLOW__DTABLE, REG_DO_PWM_ALLOW__DPOS, REG_DO_PWM_ALLOW__RETAIN, REG_DO_PWM_ALLOW__STR);
+    Res += REG_InitRegs(REG_DO_PWM_PERIOD__GID, REG_DO_PWM_PERIOD__ZONE, REG_DO_PWM_PERIOD__TYPESZ, REG_DO_PWM_PERIOD__GROUP, REG_DO_PWM_PERIOD__TYPE, REG_DO_PWM_PERIOD__POS, REG_DO_PWM_PERIOD__SZ, REG_DO_PWM_PERIOD__SADDR, REG_DO_PWM_PERIOD__MBTABLE, REG_DO_PWM_PERIOD__MBPOS, REG_DO_PWM_PERIOD__A00, REG_DO_PWM_PERIOD__A01, REG_DO_PWM_PERIOD__A02, REG_DO_PWM_PERIOD__DTABLE, REG_DO_PWM_PERIOD__DPOS, REG_DO_PWM_PERIOD__RETAIN, REG_DO_PWM_PERIOD__STR);
+    Res += REG_InitRegs(REG_DO_MODE__GID, REG_DO_MODE__ZONE, REG_DO_MODE__TYPESZ, REG_DO_MODE__GROUP, REG_DO_MODE__TYPE, REG_DO_MODE__POS, REG_DO_MODE__SZ, REG_DO_MODE__SADDR, REG_DO_MODE__MBTABLE, REG_DO_MODE__MBPOS, REG_DO_MODE__A00, REG_DO_MODE__A01, REG_DO_MODE__A02, REG_DO_MODE__DTABLE, REG_DO_MODE__DPOS, REG_DO_MODE__RETAIN, REG_DO_MODE__STR);
+    Res += REG_InitRegs(REG_DO_STATUS__GID, REG_DO_STATUS__ZONE, REG_DO_STATUS__TYPESZ, REG_DO_STATUS__GROUP, REG_DO_STATUS__TYPE, REG_DO_STATUS__POS, REG_DO_STATUS__SZ, REG_DO_STATUS__SADDR, REG_DO_STATUS__MBTABLE, REG_DO_STATUS__MBPOS, REG_DO_STATUS__A00, REG_DO_STATUS__A01, REG_DO_STATUS__A02, REG_DO_STATUS__DTABLE, REG_DO_STATUS__DPOS, REG_DO_STATUS__RETAIN, REG_DO_STATUS__STR);
+
+    //AI
+    Res += REG_InitRegs(REG_AI_VAL__GID, REG_AI_VAL__ZONE, REG_AI_VAL__TYPESZ, REG_AI_VAL__GROUP, REG_AI_VAL__TYPE, REG_AI_VAL__POS, REG_AI_VAL__SZ, REG_AI_VAL__SADDR, REG_AI_VAL__MBTABLE, REG_AI_VAL__MBPOS, REG_AI_VAL__A00, REG_AI_VAL__A01, REG_AI_VAL__A02, REG_AI_VAL__DTABLE, REG_AI_VAL__DPOS, REG_AI_VAL__RETAIN, REG_AI_VAL__STR);
+    Res += REG_InitRegs(REG_AI_MODE__GID, REG_AI_MODE__ZONE, REG_AI_MODE__TYPESZ, REG_AI_MODE__GROUP, REG_AI_MODE__TYPE, REG_AI_MODE__POS, REG_AI_MODE__SZ, REG_AI_MODE__SADDR, REG_AI_MODE__MBTABLE, REG_AI_MODE__MBPOS, REG_AI_MODE__A00, REG_AI_MODE__A01, REG_AI_MODE__A02, REG_AI_MODE__DTABLE, REG_AI_MODE__DPOS, REG_AI_MODE__RETAIN, REG_AI_MODE__STR);
+    Res += REG_InitRegs(REG_AI_STATUS__GID, REG_AI_STATUS__ZONE, REG_AI_STATUS__TYPESZ, REG_AI_STATUS__GROUP, REG_AI_STATUS__TYPE, REG_AI_STATUS__POS, REG_AI_STATUS__SZ, REG_AI_STATUS__SADDR, REG_AI_STATUS__MBTABLE, REG_AI_STATUS__MBPOS, REG_AI_STATUS__A00, REG_AI_STATUS__A01, REG_AI_STATUS__A02, REG_AI_STATUS__DTABLE, REG_AI_STATUS__DPOS, REG_AI_STATUS__RETAIN, REG_AI_STATUS__STR);
+    Res += REG_InitRegs(REG_AI_KA__GID, REG_AI_KA__ZONE, REG_AI_KA__TYPESZ, REG_AI_KA__GROUP, REG_AI_KA__TYPE, REG_AI_KA__POS, REG_AI_KA__SZ, REG_AI_KA__SADDR, REG_AI_KA__MBTABLE, REG_AI_KA__MBPOS, REG_AI_KA__A00, REG_AI_KA__A01, REG_AI_KA__A02, REG_AI_KA__DTABLE, REG_AI_KA__DPOS, REG_AI_KA__RETAIN, REG_AI_KA__STR);
+    Res += REG_InitRegs(REG_AI_KB__GID, REG_AI_KB__ZONE, REG_AI_KB__TYPESZ, REG_AI_KB__GROUP, REG_AI_KB__TYPE, REG_AI_KB__POS, REG_AI_KB__SZ, REG_AI_KB__SADDR, REG_AI_KB__MBTABLE, REG_AI_KB__MBPOS, REG_AI_KB__A00, REG_AI_KB__A01, REG_AI_KB__A02, REG_AI_KB__DTABLE, REG_AI_KB__DPOS, REG_AI_KB__RETAIN, REG_AI_KB__STR);
+
+    //SYS_STAT
+    Res += REG_InitRegs(REG_SYS_STAT__GID, REG_SYS_STAT__ZONE, REG_SYS_STAT__TYPESZ, REG_SYS_STAT__GROUP, REG_SYS_STAT__TYPE, REG_SYS_STAT__POS, REG_SYS_STAT__SZ, REG_SYS_STAT__SADDR, REG_SYS_STAT__MBTABLE, REG_SYS_STAT__MBPOS, REG_SYS_STAT__A00, REG_SYS_STAT__A01, REG_SYS_STAT__A02, REG_SYS_STAT__DTABLE, REG_SYS_STAT__DPOS, REG_SYS_STAT__RETAIN, 0);
+    Res += REG_InitRegs(REG_SYS_SET__GID, REG_SYS_SET__ZONE, REG_SYS_SET__TYPESZ, REG_SYS_SET__GROUP, REG_SYS_SET__TYPE, REG_SYS_SET__POS, REG_SYS_SET__SZ, REG_SYS_SET__SADDR, REG_SYS_SET__MBTABLE, REG_SYS_SET__MBPOS, REG_SYS_SET__A00, REG_SYS_SET__A01, REG_SYS_SET__A02, REG_SYS_SET__DTABLE, REG_SYS_SET__DPOS, REG_SYS_SET__RETAIN, 0);
+    Res += REG_InitRegs(REG_SYS_CMD__GID, REG_SYS_CMD__ZONE, REG_SYS_CMD__TYPESZ, REG_SYS_CMD__GROUP, REG_SYS_CMD__TYPE, REG_SYS_CMD__POS, REG_SYS_CMD__SZ, REG_SYS_CMD__SADDR, REG_SYS_CMD__MBTABLE, REG_SYS_CMD__MBPOS, REG_SYS_CMD__A00, REG_SYS_CMD__A01, REG_SYS_CMD__A02, REG_SYS_CMD__DTABLE, REG_SYS_CMD__DPOS, REG_SYS_CMD__RETAIN, 0);
+
+    //USER_DATA
+    Res += REG_InitRegs(REG_USER_DATA1__GID, REG_USER_DATA1__ZONE, REG_USER_DATA1__TYPESZ, REG_USER_DATA1__GROUP, REG_USER_DATA1__TYPE, REG_USER_DATA1__POS, REG_USER_DATA1__SZ, REG_USER_DATA1__SADDR, REG_USER_DATA1__MBTABLE, REG_USER_DATA1__MBPOS, REG_USER_DATA1__A00, REG_USER_DATA1__A01, REG_USER_DATA1__A02, REG_USER_DATA1__DTABLE, REG_USER_DATA1__DPOS, REG_USER_DATA1__RETAIN, REG_USER_DATA1__STR);
+    Res += REG_InitRegs(REG_USER_DATA2__GID, REG_USER_DATA2__ZONE, REG_USER_DATA2__TYPESZ, REG_USER_DATA2__GROUP, REG_USER_DATA2__TYPE, REG_USER_DATA2__POS, REG_USER_DATA2__SZ, REG_USER_DATA2__SADDR, REG_USER_DATA2__MBTABLE, REG_USER_DATA2__MBPOS, REG_USER_DATA2__A00, REG_USER_DATA2__A01, REG_USER_DATA2__A02, REG_USER_DATA2__DTABLE, REG_USER_DATA2__DPOS, REG_USER_DATA2__RETAIN, REG_USER_DATA2__STR);
+
+    return (Res);
+}

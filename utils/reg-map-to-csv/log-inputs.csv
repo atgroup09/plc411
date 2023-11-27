@@ -1,0 +1,22 @@
+N;GID;Table;Addr;Type;Str;
+2;11;INPUTS;0;WORD;"DI0 Tach: Value"
+3;11;INPUTS;1;WORD;"DI1 Tach: Value"
+10;12;INPUTS;2;DWORD;"DI0 Cntr: Value"
+11;12;INPUTS;4;DWORD;"DI1 Cntr: Value"
+22;15;INPUTS;6;BYTE;"DI0: Status"
+23;15;INPUTS;7;BYTE;"DI1: Status"
+38;26;INPUTS;8;BYTE;"DO0: Status"
+39;26;INPUTS;9;BYTE;"DO1: Status"
+40;30;INPUTS;10;REAL;"AI0: Val"
+41;30;INPUTS;12;REAL;"AI1: Val"
+42;30;INPUTS;14;REAL;"AI2: Val"
+46;32;INPUTS;16;BYTE;"AI0: Status"
+47;32;INPUTS;17;BYTE;"AI1: Status"
+48;32;INPUTS;18;BYTE;"AI2: Status"
+55;70;INPUTS;19;WORD;PLC Hardware code
+56;70;INPUTS;20;WORD;PLC Hardware variant
+57;70;INPUTS;21;WORD;RTE version
+58;70;INPUTS;22;WORD;RTE version (year)
+59;70;INPUTS;23;WORD;RTE version (day month)
+60;70;INPUTS;24;WORD;System statuses (1), packed
+61;70;INPUTS;25;WORD;System statuses (2), packed
